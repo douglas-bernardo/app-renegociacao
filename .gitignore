@@ -1,0 +1,5 @@
+.idea/
+tmp/
+vendor/
+src/Config/app_renegociacao.ini
+.env

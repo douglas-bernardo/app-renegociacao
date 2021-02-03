@@ -1,0 +1,33 @@
+{
+    "name": "douglas-bernardo/app-renegociacao",
+    "description": "Aplicação para gerenciamento de ocorrencias da renegociação bpvc",
+    "minimum-stability": "stable",
+    "authors": [{
+        "name": "Jackson Douglas B. Feijão",
+        "email": "jkdouglas21@gmail.com",
+        "role": "Developer"
+    }],
+    "config": {
+        "vendor-dir": "vendor"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\":"src/"
+        },
+        "files": [
+            "src/Helpers/Helpers.php"
+        ]
+    },
+    "require": {
+        "monolog/monolog": "^2.1",
+        "ext-json": "*",
+        "filp/whoops": "^2.9",
+        "symfony/http-foundation": "^5.2",
+        "symfony/routing": "^5.2",
+        "symfony/http-kernel": "^5.2",
+        "symfony/http-client": "^5.2",
+        "vlucas/phpdotenv": "^5.3",
+        "symfony/event-dispatcher": "^5.2",
+        "lcobucci/jwt": "^4.1"
+    }
+}
