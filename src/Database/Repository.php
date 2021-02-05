@@ -76,7 +76,6 @@ final class Repository
             $result = $conn->query($sql);
             $results = array();
             if ($result) {
-
                 while ($row = $result->fetchObject($this->activeRecord)) {
                     $results[] = $row;
                 }

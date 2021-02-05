@@ -32,13 +32,17 @@ class OcorrenciaController
             }
 
             return new JsonResponse([
+                'status' => 'success',
                 'total' => count($result),
                 'data' => $result
             ]);
 
             Transaction::close();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
     }
 
@@ -55,13 +59,17 @@ class OcorrenciaController
             $ocorrencia = $result ? $result[0]->toArray() : null;
 
             return new JsonResponse([
+                'status' => 'success',
                 'total' => count($result),
                 'data' => $ocorrencia
             ]);
 
             Transaction::close();
         } catch (\PDOException $e) {
-            echo $e->getMessage();
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
     }
 }

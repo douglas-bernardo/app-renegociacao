@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Controller;
+
+use App\Database\Transaction;
+use App\Model\Negociacao;
+use App\Model\Ocorrencia;
+use App\Model\Retencao;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+
+class FinalizaOcorrenciaRetencaoController
+{
+    public function create(Request $request, $ocorrenciaId)
+    {
+        try {
+
+            $user = $request->attributes->get('user');
+
+            $request_data = $request->toArray();
+            $request_data = filter_var_array($request_data, FILTER_SANITIZE_STRING);
+
+            if (
+                !isset($request_data['negociacao']) ||
+                !isset($request_data['retencao']) ||
+                !isset($request_data['situacao'])
+            ) {
+                return new JsonResponse([
+                    'status' => 'fail',
+                    'data' => [
+                        'Requisição' => 'Requisição inválida!'
+                    ]
+                ]);
+            }
+
+            $negociacao_data = $request_data['negociacao'];
+            $retencao_data = $request_data['retencao'];
+            $situacao_data = $request_data['situacao'];
+
+            Transaction::open($_ENV['APPLICATION']);
+
+            $ocorrencia = new Ocorrencia($ocorrenciaId);
+
+            if ($ocorrencia->finished) {
+                return new JsonResponse([
+                    'status' => 'fail',
+                    'data' => [
+                        'Ocorrência' => 'Ocorrência Já finalizada!'
+                    ]
+                ]);
+            }
+
+            if ($ocorrencia->idusuario_resp !== $user['ts_usuario_id']) {
+                return new JsonResponse([
+                    'status' => 'fail',
+                    'data' => [
+                        'Ocorrência' => 'Somente ocorrências próprias podem ser finalizadas!'
+                    ]
+                ]);
+            }
+
+            if ((int) $situacao_data['situacao_id'] !== 6) {
+                return new JsonResponse([
+                    'status' => 'fail',
+                    'data' => [
+                        'Finalização' => 'Finalização inválida!'
+                    ]
+                ]);
+            }
+
+            $ocorrencia->situacao_id = $situacao_data['situacao_id'];
+            $ocorrencia->finished = 1;
+            $ocorrencia->store();
+
+            $negociation = new Negociacao();
+            $negociation->fromArray($negociacao_data);
+            $negociation->usuario_id = $user['uid'];
+            $negociation->ocorrencia_id = $ocorrencia->id;
+            $negociation->store();
+
+            $retention = new Retencao();
+            $retention->fromArray($retencao_data);
+            $retention->negociacao_id = $negociation->id;
+            $retention->store();
+
+            Transaction::close();
+
+            return new JsonResponse([
+                'status' => 'success',
+                'data' => [
+                    'nogociacao' => $negociation->toArray(),
+                    'ocorrencia' => $ocorrencia->toArray(),
+                    'retencao' => $retention->toArray(),
+                ]
+            ]);
+        } catch (\PDOException $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+}

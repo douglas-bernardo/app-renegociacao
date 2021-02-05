@@ -86,8 +86,7 @@ abstract class Record
 
     public function getEntity()
     {
-        $class = get_class($this); //obtém o nome da classe
-        //Retorna o valor da constante TABLENAME presente na classe filha de Record, instanciada 
+        $class = get_class($this);
         return constant("{$class}::TABLENAME");
     }
 

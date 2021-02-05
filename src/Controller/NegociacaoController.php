@@ -2,18 +2,41 @@
 
 namespace App\Controller;
 
+use App\Database\Criteria;
+use App\Database\Repository;
+use App\Database\Transaction;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class NegociacaoController
 {
-    public function create(Request $request)
+    public function index()
     {
-        $data = $request->toArray();
-        $data = filter_var_array($data, FILTER_SANITIZE_STRING);
-        
-        return new JsonResponse([
-            'data' => $data
-        ]);
+        try {
+            Transaction::open($_ENV['APPLICATION']);
+
+            $result = array();
+            $repository = new Repository('App\Model\Negociacao');
+            $criteria = new Criteria;
+            $negociacoes = $repository->load($criteria);
+
+            if ($negociacoes) {
+                foreach ($negociacoes as $negociacao) {
+                    $result[] = $negociacao->toArray();
+                }
+            }
+
+            return new JsonResponse([
+                'status' => 'success',
+                'total' => count($result),
+                'data' => $result
+            ]);
+
+            Transaction::close();
+        } catch (\PDOException $e) {
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

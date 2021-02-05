@@ -10,7 +10,7 @@ $routes = new RouteCollection();
  */
 
 $routes->add('authentication', new Route(
-    '/session',
+    '/sessions',
     ['_controller' => 'App\Controller\SessionController::create'],
     [],[],'',[],['POST']
 ));
@@ -46,13 +46,21 @@ $routes->add('users_create', new Route(
  * Import
  */
 
-$routes->add('import_ocorrencias', new Route('/import', [
+$routes->add('import_ocorrencias', new Route('/import/ocorrencias', [
     '_controller' => 'App\Controller\ImportOcorrenciasController::index'
+]));
+
+$routes->add('import_motivos', new Route('/import/motivos', [
+    '_controller' => 'App\Controller\ImportMotivosController::index'
+]));
+
+$routes->add('import_projetos', new Route('/import/projetos', [
+    '_controller' => 'App\Controller\ImportProjetosController::index'
 ]));
 
 
 /**
- * Occurrence
+ * Ocorrencia
  */
 
 $routes->add('ocorrencias', new Route('/ocorrencias', [
@@ -64,23 +72,52 @@ $routes->add('ocorrencias_show', new Route('/ocorrencias/{ocorrenciaId}', [
 ]));
 
 /**
- * Finish Occurrence
+ * Atendimento
  */
-$routes->add('FinishOccurrenceDefault', new Route(
-    '/ocorrencias/{ocorrenciaId}/finish-default', 
-    ['_controller' => 'App\Controller\FinishOccurrenceDefaultController::create'],
+
+$routes->add('atendimento_list', new Route(
+    '/atendimento',
+    ['_controller' => 'App\Controller\AtendimentoController::index'],
+    [],[],'',[],['GET']
+));
+
+$routes->add('atendimento', new Route(
+    '/atendimento',
+    ['_controller' => 'App\Controller\AtendimentoController::create'],
     [],[],'',[],['POST']
 ));
 
-$routes->add('FinishOccurrenceWithMaintainedContract', new Route(
-    '/ocorrencias/{ocorrenciaId}/finish-maintained', 
-    ['_controller' => 'App\Controller\FinishOccurrenceWithMaintainedContractController::create'],
+/**
+ * Negociacao
+ */
+
+$routes->add('negociacao_list', new Route(
+    '/negociacao',
+    ['_controller' => 'App\Controller\NegociacaoController::index'],
+    [],[],'',[],['GET']
+));
+
+$routes->add('FinalizaOcorrenciaPadrao', new Route(
+    '/ocorrencias/{ocorrenciaId}/finaliza-padrao', 
+    ['_controller' => 'App\Controller\FinalizaOcorrenciaPadraoController::create'],
     [],[],'',[],['POST']
 ));
 
-$routes->add('FinishOccurrenceWithDowngrade', new Route(
-    '/ocorrencias/{ocorrenciaId}/finish-downgrade', 
-    ['_controller' => 'App\Controller\FinishOccurrenceWithDowngradeController::create'],
+$routes->add('FinalizaOcorrenciaRetencao', new Route(
+    '/ocorrencias/{ocorrenciaId}/finaliza-retencao', 
+    ['_controller' => 'App\Controller\FinalizaOcorrenciaRetencaoController::create'],
+    [],[],'',[],['POST']
+));
+
+$routes->add('FinalizaOcorrenciaReversao', new Route(
+    '/ocorrencias/{ocorrenciaId}/finaliza-reversao', 
+    ['_controller' => 'App\Controller\FinalizaOcorrenciaReversaoController::create'],
+    [],[],'',[],['POST']
+));
+
+$routes->add('FinalizaOcorrenciaCancelamento', new Route(
+    '/ocorrencias/{ocorrenciaId}/finaliza-cancelamento', 
+    ['_controller' => 'App\Controller\FinalizaOcorrenciaCancelamentoController::create'],
     [],[],'',[],['POST']
 ));
 

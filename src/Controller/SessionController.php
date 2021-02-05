@@ -28,19 +28,29 @@ class SessionController
             $user = $repository->load($criteria);
 
             if (!$user) {
-                return new JsonResponse(['error' => 'Incorrect e-mail/password'], 401);
+                return new JsonResponse([
+                    'status' => 'fail',
+                    'data' => [
+                        'Credentials' => 'Incorrect e-mail/password!'
+                    ]
+                ], 401);
             }
 
             $passwordMatched = password_verify($data['password'], $user[0]->password);
 
             if (!$passwordMatched) {
-                return new JsonResponse(['error' => 'Incorrect e-mail/password'], 401);
+                return new JsonResponse([
+                    'status' => 'fail',
+                    'data' => [
+                        'Credentials' => 'Incorrect e-mail/password!'
+                    ]
+                ], 401);
             }
 
             $now = new DateTimeImmutable();
             $tokenIdentity = md5(uniqid(rand(), true));
             $config = getConfigJWT();
-            
+
             $token = $config->builder()
                 ->issuedBy('http://app.renegociacao')
                 ->identifiedBy($tokenIdentity)
@@ -50,13 +60,17 @@ class SessionController
                 ->withHeader('tokenIdentity', $tokenIdentity)
                 ->getToken($config->signer(), $config->signingKey());
 
+            unset($user[0]->password);
             return new JsonResponse([
+                'status' => 'success',
                 'user' => $user[0]->toArray(),
                 'token' => $token->toString()
             ]);
-            
         } catch (\Exception $e) {
-            return new JsonResponse(['error', $e->getMessage()]);
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
     }
 }

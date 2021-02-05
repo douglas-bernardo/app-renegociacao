@@ -15,36 +15,53 @@ class ImportOcorrenciasController
         try {
             Transaction::open($_ENV['APPLICATION']);
 
+            $baseURL = $_ENV['URI_API_TIMESHARING'] . '/ocorrencias';
+
             $lastOcorrenciaId = (new Ocorrencia())->getLast();
             $lastOcorrenciaObject = new Ocorrencia($lastOcorrenciaId);
 
             if ($lastOcorrenciaObject->toArray()) {
                 $num_ocorrencia = $lastOcorrenciaObject->numero_ocorrencia;
-                $url = "http://api.timesharing/ocorrencias/list-after-number/{$num_ocorrencia}";
+                $url = $baseURL . "/list-after-number/{$num_ocorrencia}";
             } else {
-                $url = "http://api.timesharing/ocorrencias/list-after-date?date=2020-07-01";
+                $url = $baseURL . "/list-after-date?date=2021-01-01";
             }
 
             $client = HttpClient::create();
             $response = $client->request('GET', $url);
-            $ocorrencias = $response->toArray();
+            $ocorrencias = $response->toArray(true);
 
-            foreach ($ocorrencias['data'] as $arrayOcorrencia) {
-                $ocorrencia = new Ocorrencia();
-                $ocorrencia->fromArray($arrayOcorrencia);
-                $ocorrencia->situacao_id = 1;
-                $ocorrencia->store();
-                unset($ocorrencia);
+            if ($ocorrencias['status'] === 'error') {
+                return new JsonResponse([
+                    'status' => 'fail',
+                    'data' => [
+                        'API' => 'An error occurred on API'
+                    ]
+                ]);
+            }
+
+            if ($ocorrencias['data']) {
+                foreach ($ocorrencias['data'] as $arrayOcorrencia) {
+                    $ocorrencia = new Ocorrencia();
+                    $ocorrencia->fromArray($arrayOcorrencia);
+                    $ocorrencia->situacao_id = 1;
+                    $ocorrencia->store();
+                    unset($ocorrencia);
+                }
             }
 
             Transaction::close();
 
             return new JsonResponse([
-                'success' =>  count($ocorrencias['data']) . ' imported.'
+                'status' => 'success',
+                'data' =>  count($ocorrencias['data']) . ' imported.'
             ]);
         } catch (Exception $e) {
             Transaction::rollback();
-            echo $e->getMessage();
+            return new JsonResponse([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
     }
 }
