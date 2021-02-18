@@ -70,7 +70,7 @@ class SessionController
             return new JsonResponse([
                 'status' => 'error',
                 'message' => $e->getMessage()
-            ]);
+            ],500);
         }
     }
 }

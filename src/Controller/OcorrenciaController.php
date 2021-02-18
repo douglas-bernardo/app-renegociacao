@@ -6,6 +6,7 @@ use App\Database\Criteria;
 use App\Database\Filter;
 use App\Database\Repository;
 use App\Database\Transaction;
+use App\Model\Situacao;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -13,29 +14,40 @@ class OcorrenciaController
 {
     public function index(Request $request)
     {
-        $user = $request->attributes->get('user');
-
         try {
-            Transaction::open($_ENV['APPLICATION']);
 
-            $result = array();
-            $repository = new Repository('App\Model\Ocorrencia');
+            $user = $request->attributes->get('user');
+            $query = $request->query->all();
+            $query = filter_var_array($query, FILTER_SANITIZE_STRING);
+
             $criteria = new Criteria;
-            $criteria->add(new Filter('idusuario_resp', '=', $user['ts_usuario_id']));
-            $criteria->add(new Filter('finished', '=', false));
-            $ocorrencias = $repository->load($criteria);
+            $offset = isset($query['offset']) ? $query['offset'] : 0;
+            $limit = isset($query['limit']) ? $query['limit'] : 10;
+            $criteria->setProperty('offset', $offset);
+            $criteria->setProperty('limit', $limit);
 
+            $criteria->add(new Filter('idusuario_resp', '=', $user['ts_usuario_id']));
+            
+            Transaction::open($_ENV['APPLICATION']);
+            $repository = new Repository('App\Model\Ocorrencia');          
+            $ocorrencias = $repository->load($criteria);
+            
+            $result = array();
             if ($ocorrencias) {
                 foreach ($ocorrencias as $ocorrencia) {
+                    $ocorrencia->situacao = (new Situacao($ocorrencia->situacao_id))->toArray();
+                    unset($ocorrencia->situacao_id);
                     $result[] = $ocorrencia->toArray();
                 }
             }
 
+            $criteria->resetProperties();
+            $count = $repository->count($criteria);
+
             return new JsonResponse([
                 'status' => 'success',
-                'total' => count($result),
                 'data' => $result
-            ]);
+            ], 200, ['x-total-count' => $count]);
 
             Transaction::close();
         } catch (\PDOException $e) {

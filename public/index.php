@@ -2,6 +2,7 @@
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
+header('Access-Control-Expose-Headers: x-total-count');
 if($_SERVER["REQUEST_METHOD"] == "OPTIONS") exit();
 
 require_once __DIR__.'/../vendor/autoload.php';
