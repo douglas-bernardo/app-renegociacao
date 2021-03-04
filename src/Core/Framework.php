@@ -32,7 +32,7 @@ class Framework
 
         try {
             // dispatch a request event
-            if($request->getPathInfo() !== '/sessions'){
+            if($request->getPathInfo() !== '/sessions' && $request->getPathInfo() !== '/users'){
                 $this->dispatcher->dispatch(new RequestEvent($request), 'request');
             };
 

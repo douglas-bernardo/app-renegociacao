@@ -42,8 +42,7 @@ class FinalizaOcorrenciaReversaoController
             Transaction::open($_ENV['APPLICATION']);
 
             $ocorrencia = new Ocorrencia($ocorrenciaId);
-
-            if ($ocorrencia->finished) {
+            if ($ocorrencia->finalizada) {
                 return new JsonResponse([
                     'status' => 'fail',
                     'data' => [
@@ -71,18 +70,19 @@ class FinalizaOcorrenciaReversaoController
             }
 
             $ocorrencia->situacao_id = $situacao_data['situacao_id'];
-            $ocorrencia->finished = 1;
+            $ocorrencia->finalizada = true;
             $ocorrencia->store();
 
-            $negociation = new Negociacao();
-            $negociation->fromArray($negociacao_data);
-            $negociation->usuario_id = $user['uid'];
-            $negociation->ocorrencia_id = $ocorrencia->id;
-            $negociation->store();
+            $negociacao = new Negociacao();
+            $negociacao->fromArray($negociacao_data);
+            $negociacao->usuario_id = $user['uid'];
+            $negociacao->ocorrencia_id = $ocorrencia->id;
+            $negociacao->data_finalizacao = date("Y-m-d H:i:s");
+            $negociacao->store();
 
             $reversao = new Reversao();
             $reversao->fromArray($reversao_data);
-            $reversao->negociacao_id = $negociation->id;
+            $reversao->negociacao_id = $negociacao->id;
             $reversao->store();
 
             Transaction::close();
@@ -90,7 +90,7 @@ class FinalizaOcorrenciaReversaoController
             return new JsonResponse([
                 'status' => 'success',
                 'data' => [
-                    'negociacao' => $negociation->toArray(),
+                    'negociacao' => $negociacao->toArray(),
                     'ocorrencia' => $ocorrencia->toArray(),
                     'reversao' => $reversao->toArray()
                 ]

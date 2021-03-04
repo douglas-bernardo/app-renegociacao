@@ -41,7 +41,7 @@ class FinalizaOcorrenciaRetencaoController
 
             $ocorrencia = new Ocorrencia($ocorrenciaId);
 
-            if ($ocorrencia->finished) {
+            if ($ocorrencia->finalizada) {
                 return new JsonResponse([
                     'status' => 'fail',
                     'data' => [
@@ -69,35 +69,38 @@ class FinalizaOcorrenciaRetencaoController
             }
 
             $ocorrencia->situacao_id = $situacao_data['situacao_id'];
-            $ocorrencia->finished = 1;
+            $ocorrencia->finalizada = true;
             $ocorrencia->store();
 
-            $negociation = new Negociacao();
-            $negociation->fromArray($negociacao_data);
-            $negociation->usuario_id = $user['uid'];
-            $negociation->ocorrencia_id = $ocorrencia->id;
-            $negociation->store();
+            $negociacao = new Negociacao();
+            $negociacao->fromArray($negociacao_data);
+            $negociacao->usuario_id = $user['uid'];
+            $negociacao->ocorrencia_id = $ocorrencia->id;
+            $negociacao->data_finalizacao = date("Y-m-d H:i:s");
+            $negociacao->valor_primeira_parcela = ($negociacao->valor_primeira_parcela) ? str_format_currency($negociacao->valor_primeira_parcela) : '0.00';
+            $negociacao->store();
 
-            $retention = new Retencao();
-            $retention->fromArray($retencao_data);
-            $retention->negociacao_id = $negociation->id;
-            $retention->store();
+            $retencao = new Retencao();
+            $retencao->fromArray($retencao_data);
+            $retencao->valor_financiado = ($retencao->valor_financiado) ? str_format_currency($retencao->valor_financiado) : '0.00';
+            $retencao->negociacao_id = $negociacao->id;
+            $retencao->store();
 
             Transaction::close();
 
             return new JsonResponse([
                 'status' => 'success',
                 'data' => [
-                    'nogociacao' => $negociation->toArray(),
+                    'nogociacao' => $negociacao->toArray(),
                     'ocorrencia' => $ocorrencia->toArray(),
-                    'retencao' => $retention->toArray(),
+                    'retencao' => $retencao->toArray(),
                 ]
             ]);
-        } catch (\PDOException $e) {
+        } catch (\Exception $e) {
             return new JsonResponse([
                 'status' => 'error',
                 'message' => $e->getMessage()
-            ]);
+            ], 400);
         }
     }
 }

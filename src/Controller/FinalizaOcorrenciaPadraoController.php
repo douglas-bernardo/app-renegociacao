@@ -35,8 +35,7 @@ class FinalizaOcorrenciaPadraoController
             Transaction::open($_ENV['APPLICATION']);
 
             $ocorrencia = new Ocorrencia($ocorrenciaId);
-
-            if ($ocorrencia->finished) {
+            if ($ocorrencia->finalizada) {
                 return new JsonResponse([
                     'status' => 'fail',
                     'data' => [
@@ -66,13 +65,14 @@ class FinalizaOcorrenciaPadraoController
             }
 
             $ocorrencia->situacao_id = $situacao_data['situacao_id'];
-            $ocorrencia->finished = 1;
+            $ocorrencia->finalizada = true;
             $ocorrencia->store();
 
             $negociacao = new Negociacao();
             $negociacao->fromArray($negociacao_data);
             $negociacao->usuario_id = $user['uid'];
             $negociacao->ocorrencia_id = $ocorrencia->id;
+            $negociacao->data_finalizacao = date("Y-m-d H:i:s");
             $negociacao->store();
 
             Transaction::close();

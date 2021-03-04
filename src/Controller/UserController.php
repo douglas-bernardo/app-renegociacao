@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Core\AbstractController;
 use App\Database\Criteria;
 use App\Database\Filter;
 use App\Database\Repository;

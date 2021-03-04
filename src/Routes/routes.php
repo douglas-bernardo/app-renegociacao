@@ -71,6 +71,30 @@ $routes->add('ocorrencias_show', new Route('/ocorrencias/{ocorrenciaId}', [
     '_controller' => 'App\Controller\OcorrenciaController::show'
 ]));
 
+
+/**
+ * Dominio app
+ */
+$routes->add('situacao', new Route('/dominio/situacao', [
+    '_controller' => 'App\Controller\SituacaoController::index'
+]));
+
+$routes->add('motivos', new Route('/dominio/motivos', [
+    '_controller' => 'App\Controller\MotivoController::index'
+]));
+
+$routes->add('tipo-solicitacao', new Route('/dominio/tipo-solicitacao', [
+    '_controller' => 'App\Controller\TipoSolicitacaoController::index'
+]));
+
+$routes->add('origem', new Route('/dominio/origem', [
+    '_controller' => 'App\Controller\OrigemController::index'
+]));
+
+$routes->add('tipo-contato', new Route('/dominio/tipo-contato', [
+    '_controller' => 'App\Controller\TipoContatoController::index'
+]));
+
 /**
  * Atendimento
  */

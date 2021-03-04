@@ -6,6 +6,7 @@ use App\Database\Criteria;
 use App\Database\Filter;
 use App\Database\Repository;
 use App\Database\Transaction;
+use App\Log\LoggerTXT;
 use App\Model\Situacao;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +30,8 @@ class OcorrenciaController
             $criteria->add(new Filter('idusuario_resp', '=', $user['ts_usuario_id']));
             
             Transaction::open($_ENV['APPLICATION']);
+            Transaction::setLogger(new LoggerTXT(__DIR__ . '/../../tmp/ocorrencias.log'));
+            
             $repository = new Repository('App\Model\Ocorrencia');          
             $ocorrencias = $repository->load($criteria);
             

@@ -67,6 +67,51 @@ INSERT INTO tipo_solicitacao (nome) VALUES ('Sol. de Informação');
 -- -----------------------------------------------------
 -- Carga dados: tipo_contato
 -- -----------------------------------------------------
-INSERT INTO tipo_contato (nome) VALUES ('Telefone');
 INSERT INTO tipo_contato (nome) VALUES ('E-mail');
+INSERT INTO tipo_contato (nome) VALUES ('Inline');
+INSERT INTO tipo_contato (nome) VALUES ('Notificação');
+INSERT INTO tipo_contato (nome) VALUES ('Telefone');
 INSERT INTO tipo_contato (nome) VALUES ('Whatsapp');
+INSERT INTO tipo_contato (nome) VALUES ('Skype');
+
+-- -----------------------------------------------------
+-- Carga dados: motivo
+-- -----------------------------------------------------
+INSERT INTO motivo (nome) VALUES ('ACORDO EXTRAJUDICIAL');
+INSERT INTO motivo (nome) VALUES ('ACORDO JUDICIAL');
+INSERT INTO motivo (nome) VALUES ('AQUISIÇÃO');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 07 DIAS - INDISPONIBILIDADE RCI');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - ATENDIMENTO CAC');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - ATENDIMENTO RCI');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - CONTRADIÇÃO VENDA X CONTRATO');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - CUSTO X BENEFÍCIO BP');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - CUSTO X BENEFÍCIO RCI');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - DESEMPREGO/DIVÓRCIO/SAÚDE/ÓBITO');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - FINANCEIRO');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - INSATISFAÇÃO BP');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - INSATISFAÇÃO OCEANI');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - INSATISFAÇÃO RCI');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - MOTIVOS PARTICULARES');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - NÃO INFORMADO');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - OCEANI');
+INSERT INTO motivo (nome) VALUES ('ARREPEND. 7 DIAS - PERFIL DE FÉRIAS');
+INSERT INTO motivo (nome) VALUES ('CONTRADIÇÃO VENDA X CONTRATO');
+INSERT INTO motivo (nome) VALUES ('CUSTO X BENEFÍCIO BP');
+INSERT INTO motivo (nome) VALUES ('CUSTO X BENEFÍCIO RCI');
+INSERT INTO motivo (nome) VALUES ('DESEMPREGO/DIVÓRCIO/SAÚDE/ÓBITO');
+INSERT INTO motivo (nome) VALUES ('ERRO OPERACIONAL');
+INSERT INTO motivo (nome) VALUES ('FINANCEIRO');
+INSERT INTO motivo (nome) VALUES ('INADIMPLENTE');
+INSERT INTO motivo (nome) VALUES ('INDISPONIBILIDADE BP');
+INSERT INTO motivo (nome) VALUES ('INDISPONIBILIDADE RCI');
+INSERT INTO motivo (nome) VALUES ('INSATISFAÇÃO BP');
+INSERT INTO motivo (nome) VALUES ('INSATISFAÇÃO DPTO FINANCEIRO');
+INSERT INTO motivo (nome) VALUES ('INSATISFAÇÃO HOTELARIA');
+INSERT INTO motivo (nome) VALUES ('INSATISFAÇÃO OCEANI');
+INSERT INTO motivo (nome) VALUES ('INSATISFAÇÃO RCI');
+INSERT INTO motivo (nome) VALUES ('MOTIVOS PARTICULARES');
+INSERT INTO motivo (nome) VALUES ('NÃO INFORMADO');
+INSERT INTO motivo (nome) VALUES ('PERFIL DE FÉRIAS');
+INSERT INTO motivo (nome) VALUES ('RENOVAÇÃO');
+INSERT INTO motivo (nome) VALUES ('INDICAÇÃO');
+INSERT INTO motivo (nome) VALUES ('RECARGA');

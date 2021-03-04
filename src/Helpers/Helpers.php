@@ -27,9 +27,12 @@ use Lcobucci\JWT\Signer\Key\InMemory;
     }    
  }
 
- /**
-  * Authenticate Config JWT
-  */
+/**
+ * ###################################
+ * ###   Authenticate Config JWT   ###
+ * ###################################
+ */
+
 function getConfigJWT(): Configuration
 {
     $config = Configuration::forSymmetricSigner(
@@ -38,4 +41,18 @@ function getConfigJWT(): Configuration
     );
     
     return $config;
+}
+
+/**
+ * ##################
+ * ###   STRING   ###
+ * ##################
+ */
+
+function str_format_currency(string $value): string
+{
+    $source = array('.', ',');
+    $replace = array('', '.');
+    $valor = str_replace($source, $replace, $value);
+    return $valor;
 }
