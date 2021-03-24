@@ -33,7 +33,7 @@ class FinalizaOcorrenciaCancelamentoController
                     'data' => [
                         'Requisição' => 'Requisição inválida!'
                     ]
-                ]);
+                    ], 400);
             }
 
             $negociacao_data = $request_data['negociacao'];
@@ -67,7 +67,7 @@ class FinalizaOcorrenciaCancelamentoController
                     'data' => [
                         'Finalização' => 'Finalização inválida!'
                     ]
-                ]);
+                    ], 400);
             }
 
             $ocorrencia->situacao_id = $situacao_data['situacao_id'];
@@ -79,11 +79,14 @@ class FinalizaOcorrenciaCancelamentoController
             $negociacao->usuario_id = $user['uid'];
             $negociacao->ocorrencia_id = $ocorrencia->id;
             $negociacao->data_finalizacao = date("Y-m-d H:i:s");
+            $negociacao->reembolso = str_format_currency($negociacao->reembolso);
+            $negociacao->taxas_extras = str_format_currency($negociacao->taxas_extras);
             $negociacao->store();
 
             $cancelamento = new Cancelamento();
             $cancelamento->fromArray($cancelamento_data);
             $cancelamento->negociacao_id = $negociacao->id;
+            $cancelamento->multa = str_format_currency($cancelamento->multa);
             $cancelamento->store();
 
             Transaction::close();
@@ -100,7 +103,7 @@ class FinalizaOcorrenciaCancelamentoController
             return new JsonResponse([
                 'status' => 'error',
                 'message' => $e->getMessage()
-            ]);
+            ], 400);
         }
     }
 }

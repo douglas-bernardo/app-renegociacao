@@ -30,7 +30,7 @@ class FinalizaOcorrenciaRetencaoController
                     'data' => [
                         'Requisição' => 'Requisição inválida!'
                     ]
-                ]);
+                    ], 400);
             }
 
             $negociacao_data = $request_data['negociacao'];
@@ -77,12 +77,12 @@ class FinalizaOcorrenciaRetencaoController
             $negociacao->usuario_id = $user['uid'];
             $negociacao->ocorrencia_id = $ocorrencia->id;
             $negociacao->data_finalizacao = date("Y-m-d H:i:s");
-            $negociacao->valor_primeira_parcela = ($negociacao->valor_primeira_parcela) ? str_format_currency($negociacao->valor_primeira_parcela) : '0.00';
+            $negociacao->valor_primeira_parcela = str_format_currency($negociacao->valor_primeira_parcela);
             $negociacao->store();
 
             $retencao = new Retencao();
             $retencao->fromArray($retencao_data);
-            $retencao->valor_financiado = ($retencao->valor_financiado) ? str_format_currency($retencao->valor_financiado) : '0.00';
+            $retencao->valor_financiado = str_format_currency($retencao->valor_financiado);
             $retencao->negociacao_id = $negociacao->id;
             $retencao->store();
 

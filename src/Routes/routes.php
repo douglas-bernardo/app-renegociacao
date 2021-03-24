@@ -95,6 +95,10 @@ $routes->add('tipo-contato', new Route('/dominio/tipo-contato', [
     '_controller' => 'App\Controller\TipoContatoController::index'
 ]));
 
+$routes->add('projeto', new Route('/dominio/projeto', [
+    '_controller' => 'App\Controller\ProjetoController::index'
+]));
+
 /**
  * Atendimento
  */

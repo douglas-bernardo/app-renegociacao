@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Database\Transaction;
+use App\Log\LoggerTXT;
 use App\Model\Negociacao;
 use App\Model\Ocorrencia;
 use App\Model\Reversao;
+use Monolog\Logger;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -32,7 +34,7 @@ class FinalizaOcorrenciaReversaoController
                     'data' => [
                         'Requisição' => 'Requisição inválida!'
                     ]
-                ]);
+                    ], 400);
             }
 
             $negociacao_data = $request_data['negociacao'];
@@ -40,6 +42,7 @@ class FinalizaOcorrenciaReversaoController
             $situacao_data = $request_data['situacao'];
 
             Transaction::open($_ENV['APPLICATION']);
+            // Transaction::setLogger(new LoggerTXT(__DIR__ . '/../../tmp/reversao.log'));
 
             $ocorrencia = new Ocorrencia($ocorrenciaId);
             if ($ocorrencia->finalizada) {
@@ -78,11 +81,15 @@ class FinalizaOcorrenciaReversaoController
             $negociacao->usuario_id = $user['uid'];
             $negociacao->ocorrencia_id = $ocorrencia->id;
             $negociacao->data_finalizacao = date("Y-m-d H:i:s");
+            $negociacao->reembolso = str_format_currency($negociacao->reembolso);
+            $negociacao->taxas_extras = str_format_currency($negociacao->taxas_extras);
+            $negociacao->valor_primeira_parcela = str_format_currency($negociacao->valor_primeira_parcela);
             $negociacao->store();
 
             $reversao = new Reversao();
             $reversao->fromArray($reversao_data);
             $reversao->negociacao_id = $negociacao->id;
+            $reversao->valor_venda = str_format_currency($reversao->valor_venda);
             $reversao->store();
 
             Transaction::close();
@@ -99,7 +106,7 @@ class FinalizaOcorrenciaReversaoController
             return new JsonResponse([
                 'status' => 'error',
                 'message' => $e->getMessage()
-            ]);
+            ], 400);
         }
     }
 }

@@ -7,6 +7,7 @@ use App\Database\Filter;
 use App\Database\Repository;
 use App\Database\Transaction;
 use App\Log\LoggerTXT;
+use App\Model\Projeto;
 use App\Model\Situacao;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,16 +67,25 @@ class OcorrenciaController
         try {
             Transaction::open($_ENV['APPLICATION']);
 
+            $result = array();
             $repository = new Repository('App\Model\Ocorrencia');
             $criteria = new Criteria;
             $criteria->add(new Filter('id', '=', $ocorrenciaId));
             $result = $repository->load($criteria);
 
-            $ocorrencia = $result ? $result[0]->toArray() : null;
-
+            if ($result) {
+                $ocorrencia = $result[0];
+                $ocorrencia->situacao = (new Situacao($ocorrencia->situacao_id))->toArray();
+                $produto = (new Projeto())->loadBy('idprojetots', $ocorrencia->idprojetots);
+                $ocorrencia->produto = $produto->nomeprojeto;
+                unset($ocorrencia->situacao_id);
+                $ocorrencia = $ocorrencia->toArray();
+            } else {
+                $ocorrencia = null;
+            }
+            
             return new JsonResponse([
                 'status' => 'success',
-                'total' => count($result),
                 'data' => $ocorrencia
             ]);
 
