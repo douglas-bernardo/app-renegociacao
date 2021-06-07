@@ -8,7 +8,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
-use Lcobucci\JWT\Validation\Constraint\IdentifiedBy;
 use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\LooseValidAt;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
@@ -55,7 +54,7 @@ class AuthenticateSubscriber implements EventSubscriberInterface
         }
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return ['request' => 'onRequest'];
     }

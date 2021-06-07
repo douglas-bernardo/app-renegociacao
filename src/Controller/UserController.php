@@ -26,7 +26,6 @@ class UserController
 
             if ($usuarios) {
                 foreach ($usuarios as $usuario) {
-                    unset($usuario->password);
                     $result[] = $usuario->toArray();
                 }
             }

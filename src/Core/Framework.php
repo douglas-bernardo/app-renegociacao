@@ -31,8 +31,13 @@ class Framework
         $this->matcher->getContext()->fromRequest($request);
 
         try {
-            // dispatch a request event
-            if($request->getPathInfo() !== '/sessions' && $request->getPathInfo() !== '/users'){
+
+            if(
+                $request->getPathInfo() !== '/sessions' &&
+                $request->getPathInfo() !== '/users' &&
+                $request->getPathInfo() !== '/import/occurrences' &&
+                $request->getPathInfo() !== '/import/projects'
+            ){
                 $this->dispatcher->dispatch(new RequestEvent($request), 'request');
             };
 

@@ -14,11 +14,16 @@ abstract class Record
      *
      * @var array
      */
-    protected $data = [];
+    protected array $data = [];
 
+    /**
+     * Record constructor.
+     * @param int|null $id
+     * @throws Exception
+     */
     public function __construct(int $id = NULL)
     {
-        if ($id) { //se o ID for informado carrega o OBJ correspondente
+        if ($id) {
             $object = $this->load($id);
             if ($object) {
                 $this->fromArray($object->toArray());
@@ -26,6 +31,9 @@ abstract class Record
         }
     }
 
+    /**
+     *
+     */
     public function __clone()
     {
         unset($this->data['id']);
@@ -65,7 +73,6 @@ abstract class Record
     public function __get($prop)
     {
         if (method_exists($this, 'get_' . $prop)) {
-            //executa o metodo get_<prop>
             return call_user_func(array($this, 'get_' . $prop));
         } else {
             if (isset($this->data[$prop])) {
@@ -74,33 +81,54 @@ abstract class Record
         }
     }
 
+    /**
+     * @param $prop
+     * @return bool
+     */
     public function __isset($prop)
     {
         return isset($this->data[$prop]);
     }
 
+    /**
+     * @param $prop
+     */
     public function __unset($prop): void
     {
         unset($this->data[$prop]);
     }
 
-    public function getEntity()
+    /**
+     * @return string
+     */
+    public function getEntity(): string
     {
         $class = get_class($this);
         return constant("{$class}::TABLENAME");
     }
 
-    public function fromArray($data)
+    /**
+     * @param $data
+     * @return $this
+     */
+    public function fromArray($data): Record
     {
-        $this->data = array_map('trim', $data);
+        $this->data = $data;
         return $this;
     }
 
-    public function toArray()
+    /**
+     * @return array
+     */
+    public function toArray(): array
     {
         return $this->data;
     }
 
+    /**
+     * @return mixed
+     * @throws Exception
+     */
     public function store()
     {
         $prepare = $this->prepare($this->data);
@@ -133,100 +161,122 @@ abstract class Record
 
         if ($conn = Transaction::get()) {
             Transaction::log($sql);
-            $result = $conn->exec($sql);
-            return $result;
+            return $conn->exec($sql);
         } else {
-            throw new Exception("Não há transação ativa!");
+            throw new Exception("There is no active transaction.");
         }
     }
 
-    public function load($id)
+    /**
+     * @param $id
+     * @return Record|null
+     * @throws Exception
+     */
+    public function load($id): ? Record
     {
-        //monta a instrução SELECT
         $sql = "SELECT * FROM {$this->getEntity()}";
         $sql .= ' WHERE id=' . (int) $id;
-        //obtém a transação ativa
         if ($conn = Transaction::get()) {
-            //cria msg de log e executa a consulta
             Transaction::log($sql);
             $result = $conn->query($sql);
-            //se retornou algum dado:
-            if ($result) {
-                $object = $result->fetchObject(get_class($this));
+            if (!$result) {
+                return null;
+            }
+
+            $object = $result->fetchObject(get_class($this));
+            if (!$object) {
+                return null;
             }
             return $object;
         } else {
-            throw new Exception("Não há transação ativa!");
+            throw new Exception("There is no active transaction.");
         }
     }
 
-    public function loadBy($param, $value)
+    /**
+     * @param $param
+     * @param $value
+     * @return Record|null
+     * @throws Exception
+     */
+    public function loadBy($param, $value): ? Record
     {
         $sql = "SELECT * FROM {$this->getEntity()}";
         $sql .= " WHERE {$param} = " . $this->escape($value);
-        //obtém a transação ativa
         if ($conn = Transaction::get()) {
-            //cria msg de log e executa a consulta
             Transaction::log($sql);
             $result = $conn->query($sql);
-            //se retornou algum dado:
-            if ($result) {
-                $object = $result->fetchObject(get_class($this));
+            if (!$result) {
+                return null;
+            }
+
+            $object = $result->fetchObject(get_class($this));
+            if (!$object) {
+                return null;
             }
             return $object;
         } else {
-            throw new Exception("Não há transação ativa!");
+            throw new Exception("There is no active transaction.");
         }
     }
 
+    /**
+     * @param null $id
+     * @return mixed
+     * @throws Exception
+     */
     public function delete($id = NULL)
     {
-        //o ID é o paramentro ou a propriedade ID
-        $id = $id ? $id : $this->id;
-        //monta a string de DELETE
+        $id = $id ?? $this->id;
         $sql = "DELETE FROM {$this->getEntity()}";
-        $sql .= ' WHERE id=' . (int) $this->data['id'];
-        //obtém a transação ativa
+        $sql .= ' WHERE id=' . (int)$id;
         if ($conn = Transaction::get()) {
-            //faz o log e executa o SQL
             Transaction::log($sql);
-            $result = $conn->exec($sql);
-            return $result; //retorna o resultado
+            return $conn->exec($sql);
         } else {
-            throw new Exception("Não há transação ativa!");
+            throw new Exception("There is no active transaction.");
         }
     }
 
-    public static function find($id)
+    /**
+     * @param $id
+     * @return Record|null
+     */
+    public static function find($id): ? Record
     {
         $classname = get_called_class();
         $ar = new $classname;
         return $ar->load($id);
     }
 
-    public static function all()
+    /**
+     * @throws Exception
+     */
+    public static function all(): array
     {
         $classname = get_called_class();
         $rep = new Repository($classname);
         return $rep->load(new Criteria);
     }
 
-    public function getLast()
+    public function getLast(): int
     {
         if ($conn = Transaction::get()) {
             $sql = "SELECT max(id) FROM {$this->getEntity()}";
-            //cria log e executa instrução SQL
             Transaction::log($sql);
             $result = $conn->query($sql);
-            //retorna os dados do banco (no caso o id)
             $row = $result->fetch();
-            return $row[0];
+            return (int) $row[0];
         } else {
-            throw new Exception("Não há transação ativa!");
+            throw new Exception("There is no active transaction.");
         }
     }
 
-    public function prepare($data)
+    /**
+     * @param $data
+     * @return array
+     */
+    public function prepare($data): array
     {
         $prepared = array();
         foreach ($data as $key => $value) {
@@ -237,10 +287,13 @@ abstract class Record
         return $prepared;
     }
 
+    /**
+     * @param $value
+     * @return mixed|string
+     */
     public function escape($value)
     {
         if (is_string($value) and (!empty($value))) {
-            //adiciona \ em aspas
             $value = addslashes($value);
             return "'$value'";
         } else if (is_bool($value)) {
@@ -252,6 +305,9 @@ abstract class Record
         }
     }
 
+    /**
+     * @return array
+     */
     public function __toString()
     {
         return $this->data;

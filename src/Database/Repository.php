@@ -2,9 +2,21 @@
 
 namespace App\Database;
 
+use Exception;
+
+/**
+ * Class Repository
+ * @package App\Database
+ */
 final class Repository
 {
-    private $activeRecord;
+    /**
+     * @var string
+     */
+    private string $activeRecord;
+    /**
+     * @var bool
+     */
     private bool $viewMode;
 
     /**
@@ -13,9 +25,14 @@ final class Repository
      * 
      * @var array
      */
-    protected $viewParameters = [];
+    protected array $viewParameters = [];
 
-    function __construct($class, $viewMode = false)
+    /**
+     * Repository constructor.
+     * @param $class
+     * @param bool $viewMode
+     */
+    function __construct($class, bool $viewMode = false)
     {
         $this->activeRecord = $class;
         $this->viewMode = $viewMode;
@@ -32,27 +49,28 @@ final class Repository
         }
     }
 
-    //injeção de dependencia
-    function load(Criteria $criteria)
+
+    /**
+     * @param Criteria $criteria
+     * @return array
+     * @throws Exception
+     */
+    function load(Criteria $criteria): array
     {
-        //instancia a instrução de SELECT
         $entityName = constant($this->activeRecord . '::TABLENAME');
-        $entity = $this->viewMode ? '(' . file_get_string_sql($entityName) . ')' : $entityName;
+        $entity = $this->viewMode ? ('(' . file_get_string_sql($entityName) . ') AS vw') : $entityName;
         $sql = "SELECT * FROM {$entity}";
 
-        //Obtêm a cláusula  WHERE da classe criteria.
         if ($criteria) {
-            $expression = $criteria->dump(); //resultado da expressão de filter 
+            $expression = $criteria->dump();
             if ($expression) {
                 $sql .= ' WHERE ' . $expression;
             }
 
-            //Obtêm as propriedades do criterio
             $order = $criteria->getProperty('order');
             $limit = $criteria->getProperty('limit');
             $offset = $criteria->getProperty('offset');
 
-            //Obtêm a ordenação do SELECT
             if ($order) {
                 $sql .= ' ORDER BY ' . $order;
             }
@@ -82,10 +100,15 @@ final class Repository
             }
             return $results;
         } else {
-            throw new \Exception("Não há conexão ativa");
+            throw new Exception("There is no active connection");
         }
     }
 
+    /**
+     * @param Criteria $criteria
+     * @return mixed
+     * @throws Exception
+     */
     function delete(Criteria $criteria)
     {
         $expression = $criteria->dump();
@@ -93,25 +116,32 @@ final class Repository
         if ($expression) {
             $sql .= ' WHERE ' . $expression;
         }
-        //obtem transação ativa
+
         if ($conn = Transaction::get()) {
-            Transaction::log($sql); // registra mensagem de log
-            $result = $conn->exec($sql); //executa a instrção de delete
-            return $result;
+            Transaction::log($sql);
+            return $conn->exec($sql);
         } else {
-            throw new \Exception("Não há conexão ativa");
+            throw new Exception("There is no active connection");
         }
     }
 
+    /**
+     * @param Criteria $criteria
+     * @return mixed
+     * @throws Exception
+     */
     function count(Criteria $criteria)
     {
         $expression = $criteria->dump();
-        $sql = "SELECT COUNT(*) FROM " . constant($this->activeRecord . '::TABLENAME');
+        $entityName = constant($this->activeRecord . '::TABLENAME');
+        $entity = $this->viewMode ? ('(' . file_get_string_sql($entityName) . ') AS vw') : $entityName;
+        $sql = "SELECT COUNT(*) FROM {$entity}";
+
         if ($expression) {
             $sql .= ' WHERE ' . $expression;
         }
 
-        //obtem conextão ativa
+        $row = array();
         if ($conn = Transaction::get()) {
             Transaction::log($sql);
             $result = $conn->query($sql);
@@ -120,7 +150,7 @@ final class Repository
             }
             return $row[0];
         } else {
-            throw new \Exception("Não há conexão ativa");
+            throw new Exception("There is no active connection");
         }
     }
 }

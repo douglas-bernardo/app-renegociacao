@@ -4,43 +4,68 @@ namespace App\Database;
 
 class Criteria extends Expression
 {
-    private $expressions; //armazena a lista de expressões
-    private $operators;   //armazena a lista de operadores
-    private $properties;  //propriedades do critério
+    /**
+     * @var array
+     */
+    private array $expressions;
+    /**
+     * @var array
+     */
+    private array $operators;
+    /**
+     * @var array
+     */
+    private array $properties;
 
-    function __construct(){//inicializa adicionando arrays vazios as variaveis expressions e operators
+    /**
+     * Criteria constructor.
+     */
+    function __construct()
+    {
         $this->expressions = array();
         $this->operators = array();
         $this->properties['offset'] = 0;
     }
 
-    public function add(Expression $expression, $operator = self::AND_OPERATOR){
-        //Na primeira vez não precisamos concatenar
+    /**
+     * @param Expression $expression
+     * @param string $operator
+     */
+    public function add(Expression $expression, $operator = self::AND_OPERATOR): void
+    {
         if(empty($this->expressions)){
             $operator = NULL;
         }
-        //agrega o resultado da expressão a lista de expressões
-        $this->expressions[] = $expression; //agregação - recebe as instancias já prontas
+
+        $this->expressions[] = $expression;
         $this->operators[]   = $operator;
     }
 
-    public function dump(){//metodo abstrato da superclasse Expression-obrigatório-
-        //concatena a lista de expressões
-        if(is_array($this->expressions)){//é um array?
+    /**
+     * @return string|null
+     */
+    public function dump(): ? string
+    {
+        if(is_array($this->expressions)){
             if(count($this->expressions) > 0){
                 $result = '';
                 foreach($this->expressions as $i => $expression){
                     $operator = $this->operators[$i];
-                    //concatena o operador com a respectiva expressão
                     $result .= $operator . $expression->dump() . ' ';
                 }
                 $result = trim($result);
-                return "({$result})";
+                return "($result)";
             }
         }
+        return null;
     }
 
-    public function setProperty($property, $value){
+    /**
+     * @param $property
+     * @param $value
+     */
+    public function setProperty($property, $value)
+    {
         if(isset($value)){
             $this->properties[$property] = $value; 
         }
@@ -49,22 +74,21 @@ class Criteria extends Expression
         }
     }
 
-    public function getProperty($property){
-        if (isset($this->properties[$property])){
-            return $this->properties[$property];
-        }
+    /**
+     * @param $property
+     * @return mixed|null
+     */
+    public function getProperty($property)
+    {
+        if (isset($this->properties[$property])) return $this->properties[$property];
+        return null;
     }
 
-    public function resetProperties()
+    /**
+     *
+     */
+    public function resetProperties(): void
     {
         $this->properties['limit'] = null;
     }
-
-    public function setProperties($properties)
-    {
-        if (isset($properties['offset']) and $properties['offset']) {
-            $this->properties['offset'] = (int) $properties['offset'];
-        }
-    }
-
 }

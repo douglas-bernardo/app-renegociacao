@@ -9,7 +9,8 @@ final class Connection
 {    
     private function __construc(){}
 
-    public static function open($name){
+    public static function open($name): PDO
+    {
         
         $fileConfig = __DIR__ . "/../Config/{$name}.ini";
                 

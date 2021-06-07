@@ -6,17 +6,13 @@ use App\Log\Logger;
 
 final class Transaction 
 {
-    /**
-     * Undocumented variable
-     *
-     * @var PDO
-     */
     private static $conn;
     private static $logger;
 
     private function __construct(){} 
 
-    public static function open($database){
+    public static function open($database)
+    {
         if(empty(self::$conn))
         {
             self::$conn = Connection::open($database);
@@ -25,18 +21,21 @@ final class Transaction
         }
     }
 
-    public static function get(){
+    public static function get()
+    {
         return self::$conn;
     }
 
-    public static function rollback(){
+    public static function rollback()
+    {
         if (self::$conn){
             self::$conn->rollback();
             self::$conn = NULL;
         }
     }
 
-    public static function close(){
+    public static function close(): void
+    {
         if (self::$conn){
             self::$conn->commit();
             self::$conn = NULL;

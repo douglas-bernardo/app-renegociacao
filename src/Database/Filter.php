@@ -8,17 +8,15 @@ class Filter extends Expression
     private $operator;
     private $value;
 
-    public function __construct($variable, $operator, $value){
-        //armazena as propriedades
+    public function __construct($variable, $operator, $value)
+    {
         $this->variable = $variable;
         $this->operator = $operator;
-
-        //transforma o valor de acordo com certas regras do tipo
         $this->value = $this->transform($value);
     }
 
-    private function transform($value){
-        //caso seja um array
+    private function transform($value)
+    {
         if (is_array($value)){
             foreach ($value as $x){
                 if(is_integer($x)){
@@ -28,7 +26,7 @@ class Filter extends Expression
                     $foo[] = "'$x'";
                 }
             }
-            //converte o array em string separada por ','
+
             $result = '('. implode(', ', $foo) . ')';
         }
         else if (is_string($value)){
@@ -43,12 +41,12 @@ class Filter extends Expression
         else {
             $result = $value;
         }
-        //retorna o valor
+
         return $result;
     }
 
     public function dump() {
-        //concatena a expressão
+
         return "{$this->variable} {$this->operator} {$this->value}";
     }
 

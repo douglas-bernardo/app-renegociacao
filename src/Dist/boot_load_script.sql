@@ -48,11 +48,11 @@ INSERT INTO situacao (nome) VALUES ('Sem Aquisição');
 INSERT INTO situacao (nome) VALUES ('Contrato Vencido');
 INSERT INTO situacao (nome) VALUES ('Vendas à Distância');
 INSERT INTO situacao (nome) VALUES ('Cancel. Vainkará');
-INSERT INTO situacao (nome) VALUES ('Reclame Aqui 7 Dias');
-INSERT INTO situacao (nome) VALUES ('Carência covid 30 dias');
-INSERT INTO situacao (nome) VALUES ('Carência covid 60 dias');
-INSERT INTO situacao (nome) VALUES ('Carência covid 90 dias');
-INSERT INTO situacao (nome) VALUES ('Solicitação de Informação');
+INSERT INTO situacao (nome) VALUES ('Reclame-Aqui 7 Dias');
+INSERT INTO situacao (nome) VALUES ('Carência covid 30d');
+INSERT INTO situacao (nome) VALUES ('Carência covid 60d');
+INSERT INTO situacao (nome) VALUES ('Carência covid 90d');
+INSERT INTO situacao (nome) VALUES ('Sol. de Informação');
 
 -- -----------------------------------------------------
 -- Carga dados: tipo_solicitacao
@@ -63,6 +63,15 @@ INSERT INTO tipo_solicitacao (nome) VALUES ('Negociação PDD');
 INSERT INTO tipo_solicitacao (nome) VALUES ('Sol. De Negociação');
 INSERT INTO tipo_solicitacao (nome) VALUES ('Procedimento Cancelamento PDD');
 INSERT INTO tipo_solicitacao (nome) VALUES ('Sol. de Informação');
+
+-- -----------------------------------------------------
+-- Carga dados: status_ocorrencia
+-- -----------------------------------------------------
+INSERT INTO status_ocorrencia (nome) VALUES ('Em Aberto');
+INSERT INTO status_ocorrencia (nome) VALUES ('Negociação Registrada');
+-- INSERT INTO status_ocorrencia (nome) VALUES ('Encerrada');
+INSERT INTO status_ocorrencia (nome) VALUES ('Encerrada Sem Negociação');
+
 
 -- -----------------------------------------------------
 -- Carga dados: tipo_contato

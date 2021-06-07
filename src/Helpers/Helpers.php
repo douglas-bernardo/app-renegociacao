@@ -6,12 +6,21 @@ use Lcobucci\JWT\Signer\Key\InMemory;
 
 /**
  * ########################
+ * ###     APP CONF     ###
+ * ########################
+ */
+define('CONF_DATE_FIN', strtotime("2021-01-31"));
+
+
+
+/**
+ * ########################
  * ###   STATEMENTS CM  ###
  * ########################
  */
 
  /**
-  * Lê as consultas CM localizadas na pasta padrão 'resources'
+  * Reads queries located in the default 'resources' folder
   *
   * @param string $queryName
   * @return string|null
@@ -20,11 +29,8 @@ use Lcobucci\JWT\Signer\Key\InMemory;
  {    
     $path = __DIR__ . "/../Resources/{$queryName}.sql";
     if(file_exists($path)){
-        $sql = file_get_contents($path);
-        return $sql;
-    } else {
-        return null;
-    }    
+        return file_get_contents($path);
+    } else return null;
  }
 
 /**
@@ -35,12 +41,10 @@ use Lcobucci\JWT\Signer\Key\InMemory;
 
 function getConfigJWT(): Configuration
 {
-    $config = Configuration::forSymmetricSigner(
+    return Configuration::forSymmetricSigner(
         new Sha256(),
         InMemory::plainText('71dc93fd767339cceb74fcfb2c4c62b7')
     );
-    
-    return $config;
 }
 
 /**
@@ -53,6 +57,5 @@ function str_format_currency(string $value): string
 {
     $source = array('.', ',');
     $replace = array('', '.');
-    $valor = str_replace($source, $replace, $value);
-    return $valor;
+    return str_replace($source, $replace, $value);
 }

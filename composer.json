@@ -28,6 +28,7 @@
         "symfony/http-client": "^5.2",
         "vlucas/phpdotenv": "^5.3",
         "symfony/event-dispatcher": "^5.2",
-        "lcobucci/jwt": "^4.1"
+        "lcobucci/jwt": "^4.1",
+        "ext-pdo": "*"
     }
 }

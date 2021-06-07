@@ -26,7 +26,7 @@ $routes->add('dashboard', new Route('/', [
 
 
 /**
- * Usuarios
+ * Users
  */
 
 $routes->add('users_list', new Route(
@@ -46,108 +46,169 @@ $routes->add('users_create', new Route(
  * Import
  */
 
-$routes->add('import_ocorrencias', new Route('/import/ocorrencias', [
-    '_controller' => 'App\Controller\ImportOcorrenciasController::index'
+$routes->add('import-occurrences', new Route('/import/occurrences', [
+    '_controller' => 'App\Controller\Imports\ImportOccurrencesController::index'
 ]));
 
-$routes->add('import_motivos', new Route('/import/motivos', [
-    '_controller' => 'App\Controller\ImportMotivosController::index'
-]));
-
-$routes->add('import_projetos', new Route('/import/projetos', [
-    '_controller' => 'App\Controller\ImportProjetosController::index'
+$routes->add('import-projects', new Route('/import/projects', [
+    '_controller' => 'App\Controller\Imports\ImportProductsController::index'
 ]));
 
 
 /**
- * Ocorrencia
+ * Occurrences
  */
 
-$routes->add('ocorrencias', new Route('/ocorrencias', [
-    '_controller' => 'App\Controller\OcorrenciaController::index'
+$routes->add('occurrences', new Route('/occurrences', [
+    '_controller' => 'App\Controller\OccurrenceController::index'
 ]));
 
-$routes->add('ocorrencias_show', new Route('/ocorrencias/{ocorrenciaId}', [
-    '_controller' => 'App\Controller\OcorrenciaController::show'
-]));
-
-
-/**
- * Dominio app
- */
-$routes->add('situacao', new Route('/dominio/situacao', [
-    '_controller' => 'App\Controller\SituacaoController::index'
-]));
-
-$routes->add('motivos', new Route('/dominio/motivos', [
-    '_controller' => 'App\Controller\MotivoController::index'
-]));
-
-$routes->add('tipo-solicitacao', new Route('/dominio/tipo-solicitacao', [
-    '_controller' => 'App\Controller\TipoSolicitacaoController::index'
-]));
-
-$routes->add('origem', new Route('/dominio/origem', [
-    '_controller' => 'App\Controller\OrigemController::index'
-]));
-
-$routes->add('tipo-contato', new Route('/dominio/tipo-contato', [
-    '_controller' => 'App\Controller\TipoContatoController::index'
-]));
-
-$routes->add('projeto', new Route('/dominio/projeto', [
-    '_controller' => 'App\Controller\ProjetoController::index'
-]));
-
-/**
- * Atendimento
- */
-
-$routes->add('atendimento_list', new Route(
-    '/atendimento',
-    ['_controller' => 'App\Controller\AtendimentoController::index'],
+$routes->add('occurrences-show', new Route('/occurrences/{id}',
+    ['_controller' => 'App\Controller\OccurrenceController::show'],
     [],[],'',[],['GET']
 ));
 
-$routes->add('atendimento', new Route(
-    '/atendimento',
-    ['_controller' => 'App\Controller\AtendimentoController::create'],
-    [],[],'',[],['POST']
-));
-
-/**
- * Negociacao
- */
-
-$routes->add('negociacao_list', new Route(
-    '/negociacao',
-    ['_controller' => 'App\Controller\NegociacaoController::index'],
+$routes->add('occurrences-search', new Route('/occurrences-search',
+    ['_controller' => 'App\Controller\OccurrenceController::search'],
     [],[],'',[],['GET']
 ));
 
-$routes->add('FinalizaOcorrenciaPadrao', new Route(
-    '/ocorrencias/{ocorrenciaId}/finaliza-padrao', 
-    ['_controller' => 'App\Controller\FinalizaOcorrenciaPadraoController::create'],
+$routes->add('occurrences-register', new Route('/occurrences/{occurrenceId}/register', [
+    '_controller' => 'App\Controller\RegisterNegotiationController::create'
+]));
+
+$routes->add('occurrences-close', new Route('/occurrences/{occurrenceId}/close', [
+    '_controller' => 'App\Controller\OccurrenceController::closeOccurrence'
+]));
+
+
+/**
+ * Domain app
+ */
+$routes->add('situation', new Route('/domain/situation', [
+    '_controller' => 'App\Controller\SituationController::index'
+]));
+
+$routes->add('status-occurrence', new Route('/domain/status-occurrence', [
+    '_controller' => 'App\Controller\StatusOccurrenceController::index'
+]));
+
+$routes->add('reasons', new Route('/domain/reasons', [
+    '_controller' => 'App\Controller\Domain\NegotiationClosingReasonsController::index'
+]));
+
+$routes->add('request-type', new Route('/domain/request-type', [
+    '_controller' => 'App\Controller\RequestTypeController::index'
+]));
+
+$routes->add('request-source', new Route('/domain/request-source', [
+    '_controller' => 'App\Controller\RequestSourceController::index'
+]));
+
+$routes->add('contact-type', new Route('/domain/contact-type', [
+    '_controller' => 'App\Controller\ContactTypeController::index'
+]));
+
+$routes->add('product', new Route('/domain/product', [
+    '_controller' => 'App\Controller\ProductController::index'
+]));
+
+
+/**
+ * Negotiations
+ */
+
+$routes->add('negotiations-list', new Route(
+    '/negotiations',
+    ['_controller' => 'App\Controller\NegotiationController::index'],
+    [],[],'',[],['GET']
+));
+
+$routes->add('negotiations-show', new Route(
+    '/negotiations/{id}',
+    ['_controller' => 'App\Controller\NegotiationController::show'],
+    [],[],'',[],['GET']
+));
+
+$routes->add('negotiations-search', new Route('/negotiations-search',
+    ['_controller' => 'App\Controller\NegotiationController::search'],
+    [],[],'',[],['GET']
+));
+
+$routes->add('negotiations-update', new Route(
+    '/negotiations/{id}',
+    ['_controller' => 'App\Controller\NegotiationController::update'],
+    [],[],'',[],['PUT']
+));
+
+
+$routes->add('default-close', new Route(
+    '/negotiations/{negotiationId}/default-close',
+    ['_controller' => 'App\Controller\DefaultNegotiationCloseController::create'],
     [],[],'',[],['POST']
 ));
 
-$routes->add('FinalizaOcorrenciaRetencao', new Route(
-    '/ocorrencias/{ocorrenciaId}/finaliza-retencao', 
-    ['_controller' => 'App\Controller\FinalizaOcorrenciaRetencaoController::create'],
+$routes->add('negotiations-retention', new Route(
+    '/negotiations/{negotiationId}/retention',
+    ['_controller' => 'App\Controller\RetentionContractController::create'],
     [],[],'',[],['POST']
 ));
 
-$routes->add('FinalizaOcorrenciaReversao', new Route(
-    '/ocorrencias/{ocorrenciaId}/finaliza-reversao', 
-    ['_controller' => 'App\Controller\FinalizaOcorrenciaReversaoController::create'],
+$routes->add('downgrade-contract', new Route(
+    '/negotiations/{negotiationId}/downgrade-contract',
+    ['_controller' => 'App\Controller\DowngradeContractController::create'],
     [],[],'',[],['POST']
 ));
 
-$routes->add('FinalizaOcorrenciaCancelamento', new Route(
-    '/ocorrencias/{ocorrenciaId}/finaliza-cancelamento', 
-    ['_controller' => 'App\Controller\FinalizaOcorrenciaCancelamentoController::create'],
+$routes->add('cancel-contract', new Route(
+    '/negotiations/{negotiationId}/cancel-contract',
+    ['_controller' => 'App\Controller\CancelContractController::create'],
     [],[],'',[],['POST']
 ));
 
+
+/**
+ * Reports
+ */
+
+$routes->add('amount-received', new Route(
+    '/reports/amount-received',
+    ['_controller' => 'App\Controller\Reports\AmountReceived::index']
+));
+
+$routes->add('monthly-efficiency', new Route(
+    '/reports/monthly-efficiency',
+    ['_controller' => 'App\Controller\Reports\MonthlyEfficiency::index']
+));
+
+$routes->add('monthly-requests', new Route(
+    '/reports/monthly-requests',
+    ['_controller' => 'App\Controller\Reports\MonthlyRequests::index']
+));
+
+$routes->add('monthly-requests-seven-days', new Route(
+    '/reports/monthly-requests-seven-days',
+    ['_controller' => 'App\Controller\Reports\MonthlyRequestsSevenDays::index']
+));
+
+$routes->add('accumulated-profit', new Route(
+    '/reports/accumulated-profit',
+    ['_controller' => 'App\Controller\Reports\AccumulatedProfit::index']
+));
+
+$routes->add('monthly-requests-summary', new Route(
+    '/reports/monthly-requests-summary',
+    ['_controller' => 'App\Controller\Reports\MonthlyRequestsSummary::index']
+));
+
+$routes->add('negotiations-analytic', new Route(
+    '/reports/negotiations-analytic',
+    ['_controller' => 'App\Controller\Reports\NegotiationsAnalyticController::index']
+));
+
+$routes->add('open-percentage', new Route(
+    '/reports/open-percentage',
+    ['_controller' => 'App\Controller\Reports\OpenPercentage::index']
+));
 
 return $routes;
