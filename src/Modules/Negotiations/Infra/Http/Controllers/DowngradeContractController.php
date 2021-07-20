@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Modules\Negotiations\Infra\Http\Controllers;
+
+
+use App\Modules\Negotiations\Services\DowngradeContractService;
+use App\Shared\Bundle\Controller\AbstractController;
+use App\Shared\Bundle\Controller\TokenAuthenticatedController;
+use App\Shared\Errors\ApiException;
+use App\Shared\Infra\Database\Transaction;
+use Exception;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\Collection;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
+class DowngradeContractController extends AbstractController implements TokenAuthenticatedController
+{
+    /**
+     * @throws ApiException
+     * @throws Exception
+     */
+    public function create(Request $request, string $id): JsonResponse
+    {
+        $user = $request->attributes->get('user');
+        $request_data = $request->toArray();
+        $request_data = filter_var_array($request_data,FILTER_SANITIZE_STRING);
+
+        $constraint_request =  new Collection([
+            'negotiation' => new NotBlank(),
+            'downgrade' => new NotBlank()
+        ]);
+        $this->validate($request_data, $constraint_request);
+
+        $constraint_negotiation = new Collection([
+            'situacao_id' => new NotBlank(),
+            'tipo_contato_id' => new NotBlank()
+        ]);
+        $constraint_negotiation->allowExtraFields = true;
+        $this->validate($request_data['negotiation'], $constraint_negotiation);
+
+        $constraint_downgrade = new Collection([
+            'produto_id' => new NotBlank(),
+            'numerocontrato' => new NotBlank(),
+            'valor_venda' => new NotBlank(),
+        ]);
+        $this->validate($request_data['downgrade'], $constraint_downgrade);
+
+        Transaction::open($_ENV['APPLICATION']);
+        $this->authorizationManager
+            ->getAuthorizations($user['uid'])
+            ->is(['ROLE_ADMIN', 'ROLE_CONSULTOR'])
+            ->getRoles();
+
+        /** @var DowngradeContractService $downgradeContractService */
+        $downgradeContractService = $this->containerBuilder->get('downgradeContract.service');
+        $downgradeContractService->execute($request_data, $id, $user);
+
+        Transaction::close();
+
+        return new JsonResponse(['status' => 'success'], 202);
+    }
+}

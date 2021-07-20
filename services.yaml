@@ -1,0 +1,105 @@
+services:
+  # Repositories
+  domain.repository:
+    class: App\Modules\Domain\Infra\Database\Repository\DomainRepository
+  permission.repository:
+    class: App\Modules\Domain\Infra\Database\Repository\PermissionRepository
+  role.repository:
+    class: App\Modules\Domain\Infra\Database\Repository\RoleRepository
+  occurrence.repository:
+    class: App\Modules\Occurrences\Infra\Database\Repository\OccurrenceRepository
+  negotiation.repository:
+    class: App\Modules\Negotiations\Infra\Database\Repository\NegotiationRepository
+  user.repository:
+    class: App\Modules\Users\Infra\Database\Repository\UserRepository
+
+  # Domain
+  bootService.service:
+    class: App\Modules\Users\Services\BootService
+    arguments: [ "@role.repository", "@permission.repository", "@user.repository" ]
+  domain.service:
+    class: App\Modules\Domain\Services\DomainServices
+    arguments: [ "@domain.repository" ]
+  createPermission.service:
+    class: App\Modules\Domain\Services\CreatePermissionService
+    arguments: [ "@permission.repository" ]
+  listPermissions.service:
+    class: App\Modules\Domain\Services\ListPermissionsService
+    arguments: [ "@permission.repository" ]
+  createRole.service:
+    class: App\Modules\Domain\Services\CreateRoleService
+    arguments: [ "@role.repository" ]
+  updateRole.service:
+    class: App\Modules\Domain\Services\UpdateRoleService
+    arguments: [ "@role.repository" ]
+  listRoles.service:
+    class: App\Modules\Domain\Services\ListRolesService
+    arguments: [ "@role.repository" ]
+
+  # User
+  authenticateUser.service:
+    class: App\Modules\Users\Services\AuthenticateUserService
+    arguments: [ "@user.repository" ]
+  listUsers.service:
+    class: App\Modules\Users\Services\ListUsersService
+    arguments: [ "@user.repository" ]
+  createUser.service:
+    class: App\Modules\Users\Services\CreateUserService
+    arguments: [ "@user.repository" ]
+  listUserRoles.service:
+    class: App\Modules\Users\Services\ListUserRolesService
+    arguments: [ "@user.repository" ]
+
+  # Occurrence
+  listOccurrence.service:
+    class: App\Modules\Occurrences\Services\ListOccurrenceService
+    arguments: [ "@occurrence.repository" ]
+  showOccurrence.service:
+    class: App\Modules\Occurrences\Services\ShowOccurrenceService
+    arguments: [ "@occurrence.repository" ]
+  searchOccurrence.service:
+    class: App\Modules\Occurrences\Services\SearchOccurrenceService
+    arguments: [ "@occurrence.repository" ]
+  registerOccurrenceService.service:
+    class: App\Modules\Occurrences\Services\RegisterOccurrenceService
+    arguments: [ "@occurrence.repository", "@negotiation.repository" ]
+  closeOccurrence.service:
+    class: App\Modules\Occurrences\Services\CloseOccurrenceService
+    arguments: [ "@occurrence.repository" ]
+
+  # Negotiation
+  listNegotiation.service:
+    class: App\Modules\Negotiations\Services\ListNegotiationService
+    arguments: [ "@negotiation.repository" ]
+  showNegotiation.service:
+    class: App\Modules\Negotiations\Services\ShowNegotiationService
+    arguments: [ "@negotiation.repository" ]
+  updateNegotiation.service:
+    class: App\Modules\Negotiations\Services\UpdateNegotiationService
+    arguments: [ "@negotiation.repository" ]
+  searchNegotiation.service:
+    class: App\Modules\Negotiations\Services\SearchNegotiationService
+    arguments: [ "@negotiation.repository" ]
+  defaultNegotiationClose.service:
+    class: App\Modules\Negotiations\Services\DefaultNegotiationCloseService
+    arguments: [ "@negotiation.repository" ]
+  retentionContract.service:
+    class: App\Modules\Negotiations\Services\RetentionContractService
+    arguments: [ "@negotiation.repository" ]
+  cancelContract.service:
+    class: App\Modules\Negotiations\Services\CancelContractService
+    arguments: [ "@negotiation.repository" ]
+  downgradeContract.service:
+    class: App\Modules\Negotiations\Services\DowngradeContractService
+    arguments: [ "@negotiation.repository" ]
+
+  # Negotiation Admin
+  transferNegotiation.service:
+    class: App\Modules\Negotiations\Services\TransferNegotiationService
+    arguments: [ "@negotiation.repository" ]
+  deleteNegotiation.service:
+    class: App\Modules\Negotiations\Services\DeleteNegotiationService
+    arguments: [ "@negotiation.repository", "@occurrence.repository" ]
+  restoreNegotiation.service:
+    class: App\Modules\Negotiations\Services\RestoreNegotiationService
+    arguments: [ "@negotiation.repository" ]
