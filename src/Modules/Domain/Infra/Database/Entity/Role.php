@@ -11,10 +11,21 @@ use App\Shared\Infra\Database\Repository;
 use Exception;
 use InvalidArgumentException;
 
+/**
+ * Class Role
+ * @package App\Modules\Domain\Infra\Database\Entity
+ */
 class Role extends Record
 {
+    /**
+     *
+     */
     const TABLENAME = 'role';
 
+    /**
+     * @return void
+     * @throws Exception
+     */
     public function store()
     {
         if (isset($this->permissions) && !is_array($this->permissions)) {
@@ -54,6 +65,18 @@ class Role extends Record
             foreach ($rolePermissions as $rolePermission) $permissions[] = new Permission($rolePermission->permission_id);
         }
         return $permissions;
+    }
+
+
+    /**
+     * @throws Exception
+     */
+    public function delPermissions(): void
+    {
+        $criteria = new Criteria();
+        $criteria->add(new Filter('role_id', '=', $this->id));
+        $repository = new Repository(RolePermission::class);
+        $repository->delete($criteria);
     }
 
     /**

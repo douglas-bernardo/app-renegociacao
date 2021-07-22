@@ -30,12 +30,12 @@ class UpdateRoleService
             throw new ApiException("Role not found");
         }
 
-        $currentPermissions = $role->getPermissions();
-        $currentPermissionsIds = [];
-        foreach ($currentPermissions as $permission) $currentPermissionsIds[] = $permission->id;
-        if (isset($data['permissions']) && is_array($data['permissions'])) {
-            $uniques = array_diff($data['permissions'], $currentPermissionsIds);
-            $data['permissions'] = $uniques;
+        if (
+            isset($data['permissions']) &&
+            is_array($data['permissions']) &&
+            !empty($data['permissions'])
+        ) {
+            $role->delPermissions();
         }
 
         $role->fromArray($data);

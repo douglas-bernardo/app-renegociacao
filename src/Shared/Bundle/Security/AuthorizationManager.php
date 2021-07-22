@@ -46,16 +46,6 @@ class AuthorizationManager
     }
 
     /**
-     * @return array
-     */
-    public function getRoles(): array
-    {
-        $roles = [];
-        foreach ($this->roles as $role) $roles[] = $role->alias;
-        return $roles;
-    }
-
-    /**
      * @throws ApiException
      */
     public function is(array $roles): AuthorizationManager
@@ -64,10 +54,7 @@ class AuthorizationManager
             throw new InvalidArgumentException('Array roles can not be empty');
         }
 
-        $currentRoles = [];
-        foreach ($this->roles as $role) $currentRoles[] = $role->alias;
-
-        $hasRoles = array_intersect($roles, $currentRoles);
+        $hasRoles = array_intersect($roles, $this->getRoles());
         if (empty($hasRoles)) {
             throw new ApiException('Not Authorized');
         }
@@ -79,6 +66,29 @@ class AuthorizationManager
      */
     public function can(string $permissionName): AuthorizationManager
     {
+        $hasPermission = in_array($permissionName, $this->getPermissions());
+
+        if (!$hasPermission) {
+            throw new ApiException('Not Authorized');
+        }
+        return self::$instance;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        $roles = [];
+        foreach ($this->roles as $role) $roles[] = $role->alias;
+        return $roles;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getPermissions(): array
+    {
         $permissions = [];
         /** @var Role $role */
         foreach ($this->roles as $role) {
@@ -89,12 +99,6 @@ class AuthorizationManager
         $currentPermissions = [];
         /** @var Permission $permission */
         foreach ($permissions as $permission) $currentPermissions[] = $permission->key_word;
-
-        $hasPermission = in_array($permissionName, array_unique($currentPermissions));
-
-        if (!$hasPermission) {
-            throw new ApiException('Not Authorized');
-        }
-        return self::$instance;
+        return array_unique($currentPermissions);
     }
 }

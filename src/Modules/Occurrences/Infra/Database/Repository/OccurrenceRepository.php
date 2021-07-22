@@ -30,7 +30,7 @@ class OccurrenceRepository implements IOccurrenceRepository
         string $status = '0',
         int $userResp = 0,
         int $ts_usuario_id = null,
-        array $userRoles = []
+        array $userPermissions = []
     ): array
     {
         $criteria = new Criteria();
@@ -42,7 +42,7 @@ class OccurrenceRepository implements IOccurrenceRepository
         $criteria->add(new Filter('dtocorrencia', '<=', $endDate));
 
         if (
-            !in_array('ROLE_ADMIN', $userRoles) &&
+            !in_array('ocorrenciasFiltrarPorResp', $userPermissions) &&
             isset($ts_usuario_id))
         {
             $criteria->add(new Filter('idusuario_resp', '=', $ts_usuario_id));
@@ -55,7 +55,11 @@ class OccurrenceRepository implements IOccurrenceRepository
             );
         }
 
-        if (in_array('ROLE_ADMIN', $userRoles) && isset($userResp) && $userResp !== 0) {
+        if (
+            in_array('ocorrenciasFiltrarPorResp', $userPermissions)
+            && isset($userResp)
+            && $userResp !== 0
+        ) {
             $criteria->add(new Filter('idusuario_resp', '=', $userResp));
         }
 

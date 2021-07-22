@@ -67,6 +67,17 @@ class User extends Record
     }
 
     /**
+     * @throws Exception
+     */
+    public function delRoles(): void
+    {
+        $criteria = new Criteria();
+        $criteria->add(new Filter('user_id', '=', $this->id));
+        $repository = new Repository(UserRole::class);
+        $repository->delete($criteria);
+    }
+
+    /**
      * @return array
      * @throws Exception
      * @noinspection PhpUndefinedFieldInspection
@@ -77,7 +88,8 @@ class User extends Record
         $roles = [];
         if ($userRoles) {
             foreach ($userRoles as $userRole) {
-                $roles[] = (new Role($userRole->role_id))->alias;
+                $role = new Role($userRole->role_id);
+                $roles[] = ['id' => $role->id, 'name' => $role->alias];
             }
         }
         $this->roles = $roles;

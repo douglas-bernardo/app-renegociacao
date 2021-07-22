@@ -75,4 +75,18 @@ class UserRepository implements IUserRepository
         $user->store();
         return $user;
     }
+
+    /**
+     * @param int $TsUserId
+     * @return User|null
+     * @throws Exception
+     */
+    public function findByTsUserId(int $TsUserId): ?User
+    {
+        $repository = new Repository(User::class);
+        $criteria = new Criteria();
+        $criteria->add(new Filter('ts_usuario_id', '=', $TsUserId));
+        $result = $repository->load($criteria);
+        return $result ? $result[0] : null;
+    }
 }

@@ -43,10 +43,10 @@ class NegotiationController extends AbstractController implements TokenAuthentic
         $userResp = $query['userResp'] ?? 0;
 
         Transaction::open($_ENV['APPLICATION']);
-        $currentUserRoles = $this->authorizationManager
+        $currentUserPermissions = $this->authorizationManager
             ->getAuthorizations($user['uid'])
-            ->is(['ROLE_ADMIN', 'ROLE_CONSULTOR'])
-            ->getRoles();
+            ->is(['ROLE_ADMIN', 'ROLE_GERENTE', 'ROLE_COORDENADOR', 'ROLE_CONSULTOR'])
+            ->getPermissions();
 
         /** @var ListNegotiationService $listNegotiationService **/
         $listNegotiationService = $this->containerBuilder->get('listNegotiation.service');
@@ -59,7 +59,7 @@ class NegotiationController extends AbstractController implements TokenAuthentic
             $situacao_id,
             $tipo_solicitacao_id,
             $userResp,
-            $currentUserRoles,
+            $currentUserPermissions,
         );
 
         Transaction::close();
@@ -107,7 +107,7 @@ class NegotiationController extends AbstractController implements TokenAuthentic
         Transaction::open($_ENV['APPLICATION']);
         $this->authorizationManager
             ->getAuthorizations($user['uid'])
-            ->is(['ROLE_ADMIN', 'ROLE_CONSULTOR'])
+            ->is(['ROLE_ADMIN', 'ROLE_GERENTE', 'ROLE_COORDENADOR', 'ROLE_CONSULTOR'])
             ->getRoles();
 
         /** @var UpdateNegotiationService $updateNegotiationService */
@@ -129,8 +129,8 @@ class NegotiationController extends AbstractController implements TokenAuthentic
         $user = $request->attributes->get('user');
         Transaction::open($_ENV['APPLICATION']);
         $this->authorizationManager->getAuthorizations($user['uid'])
-            ->is(['ROLE_ADMIN'])
-            ->can('negociacaoEditar');
+            ->is(['ROLE_ADMIN', 'ROLE_GERENTE', 'ROLE_COORDENADOR'])
+            ->can('negociacaoDeletar');
 
         /** @var DeleteNegotiationService $deleteNegotiationService */
         $deleteNegotiationService = $this->containerBuilder->get('deleteNegotiation.service');

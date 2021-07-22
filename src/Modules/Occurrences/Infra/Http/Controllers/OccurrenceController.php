@@ -37,11 +37,11 @@ class OccurrenceController extends AbstractController implements TokenAuthentica
 
         Transaction::open($_ENV['APPLICATION']);
 
-        $currentUserRoles = $this->authorizationManager
+        $currentUserPermissions = $this->authorizationManager
             ->getAuthorizations($user['uid'])
-            ->is(['ROLE_ADMIN', 'ROLE_CONSULTOR'])
+            ->is(['ROLE_ADMIN', 'ROLE_GERENTE', 'ROLE_COORDENADOR', 'ROLE_CONSULTOR'])
             ->can('ocorrenciasVer')
-            ->getRoles();
+            ->getPermissions();
 
         /** @var ListOccurrenceService $listOccurrenceService */
         $listOccurrenceService = $this->containerBuilder->get('listOccurrence.service');
@@ -53,7 +53,7 @@ class OccurrenceController extends AbstractController implements TokenAuthentica
             $status,
             $userResp,
             $user['ts_usuario_id'] ?? null,
-            $currentUserRoles
+            $currentUserPermissions
         );
 
         Transaction::close();
@@ -76,9 +76,9 @@ class OccurrenceController extends AbstractController implements TokenAuthentica
         $user = $request->attributes->get('user');
 
         Transaction::open($_ENV['APPLICATION']);
-        $currentUserRoles = $this->authorizationManager
+        $this->authorizationManager
             ->getAuthorizations($user['uid'])
-            ->is(['ROLE_ADMIN', 'ROLE_CONSULTOR'])
+            ->is(['ROLE_ADMIN', 'ROLE_GERENTE', 'ROLE_COORDENADOR', 'ROLE_CONSULTOR'])
             ->can('ocorrenciasVer')
             ->getRoles();
 

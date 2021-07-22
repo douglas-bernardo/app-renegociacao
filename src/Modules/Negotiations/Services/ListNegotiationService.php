@@ -35,7 +35,7 @@ class ListNegotiationService
      * @param string $situacao_id
      * @param string $tipo_solicitacao_id
      * @param int $userResp
-     * @param array $currentUserRoles
+     * @param array $currentUserPermissions
      * @return array
      */
     public function execute(
@@ -47,7 +47,7 @@ class ListNegotiationService
         string $situacao_id,
         string $tipo_solicitacao_id,
         int $userResp,
-        array $currentUserRoles = []
+        array $currentUserPermissions = []
     ): array
     {
         return $this->negotiationRepository->findAll(
@@ -59,7 +59,7 @@ class ListNegotiationService
             $situacao_id,
             $tipo_solicitacao_id,
             $userResp,
-            $currentUserRoles
+            $currentUserPermissions
         );
     }
 }

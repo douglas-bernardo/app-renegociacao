@@ -31,14 +31,18 @@ class CreateUserService
      */
     public function execute(array $data): User
     {
-        $userExists = $this->userRepository->findByEmail($data['email']);
+        if (isset($data['ts_usuario_id']) && !empty($data['ts_usuario_id'])) {
+            $tsUserExists = $this->userRepository->findByTsUserId($data['ts_usuario_id']);
+            if ($tsUserExists) throw new ApiException("Usuário TS já Cadastrado");
+        }
 
+        $data['email'] = filter_var($data['email'], FILTER_SANITIZE_EMAIL);
+        $userExists = $this->userRepository->findByEmail($data['email']);
         if ($userExists) {
-            throw new ApiException("Email address already exists!");
+            throw new ApiException("E-mail informado já cadastrado para outro usuário");
         }
 
         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-        unset($data['user_timesharing']);
         return $this->userRepository->create($data);
     }
 }

@@ -22,7 +22,7 @@ interface INegotiationRepository
      * @param string $situacao_id
      * @param string $tipo_solicitacao_id
      * @param int $userResp
-     * @param array $currentUserRoles
+     * @param array $currentUserPermissions
      * @return array
      */
     public function findAll(
@@ -34,7 +34,7 @@ interface INegotiationRepository
         string $situacao_id,
         string $tipo_solicitacao_id,
         int $userResp = 0,
-        array $currentUserRoles = []
+        array $currentUserPermissions = []
     ): array;
 
     /**

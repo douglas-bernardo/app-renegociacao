@@ -49,6 +49,12 @@ services:
   listUserRoles.service:
     class: App\Modules\Users\Services\ListUserRolesService
     arguments: [ "@user.repository" ]
+  showUser.service:
+    class: App\Modules\Users\Services\ShowUserService
+    arguments: [ "@user.repository" ]
+  updateUser.service:
+    class: App\Modules\Users\Services\UpdateUserService
+    arguments: [ "@user.repository" ]
 
   # Occurrence
   listOccurrence.service:

@@ -156,6 +156,7 @@ INSERT INTO permission (name, description, key_word) VALUES ('Configurações Us
 INSERT INTO permission (name, description, key_word) VALUES ('Ocorrencias Ver', 'Permite visualizar as ocorrências cadastradas no sistema', 'ocorrenciasVer');
 INSERT INTO permission (name, description, key_word) VALUES ('Ocorrencias Registrar Negociação', 'Permite registrar negociações para uma ou mais ocorrencias cadastradas no sistema', 'ocorrenciasRegistrarNegociacao');
 INSERT INTO permission (name, description, key_word) VALUES ('Ocorrências Fechar Sem Negociação', 'Permite fechar uma ocorrência sem atribuir uma negociação a mesma', 'ocorrenciasFecharSemNegociacao');
+INSERT INTO permission (name, description, key_word) VALUES ('Ocorrencias Filtrar Por Resp', 'Permite realizar a filtragem das ocorrências de acordo com o usuário responsável', 'ocorrenciasFiltrarPorResp');
 
 -- Operation: negotiations
 INSERT INTO permission (name, description, key_word) VALUES ('Negociações Ver', 'Permite visualizar as negociações cadastradas no sistema', 'negociacoesVer');
@@ -163,6 +164,7 @@ INSERT INTO permission (name, description, key_word) VALUES ('Negociações Excl
 INSERT INTO permission (name, description, key_word) VALUES ('Negociações Editar', 'Permite editar uma negociação cadastrada no sistema', 'negociacaoEditar');
 INSERT INTO permission (name, description, key_word) VALUES ('Negociações Transferir', 'Permite transferir uma negociação entre consultores', 'negociacaoTransferir');
 INSERT INTO permission (name, description, key_word) VALUES ('Negociações Restaurar', 'Permite restaurar uma negociação como aguardando retorno', 'negociacaoRestaurar');
+INSERT INTO permission (name, description, key_word) VALUES ('Negociações Filtrar Por Resp', 'Permite realizar a filtragem das negociações de acordo com o usuário responsável', 'negociacoesFiltrarPorResp');
 
 INSERT INTO permission (name, description, key_word) VALUES ('Negociações Finalizar Cancelamento', 'Permite finalizar uma negociação como cancelamento', 'negociacaoFinalizarCancelamento');
 INSERT INTO permission (name, description, key_word) VALUES ('Negociações Finalizar Retenção', 'Permite finalizar uma negociação como retenção', 'negociacaoFinalizarRetencao');

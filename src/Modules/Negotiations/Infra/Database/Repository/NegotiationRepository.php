@@ -28,7 +28,7 @@ class NegotiationRepository implements INegotiationRepository
      * @param string $situacao_id
      * @param string $tipo_solicitacao_id
      * @param int $userResp
-     * @param array $currentUserRoles
+     * @param array $currentUserPermissions
      * @return array
      * @throws Exception
      */
@@ -41,7 +41,7 @@ class NegotiationRepository implements INegotiationRepository
         string $situacao_id = '0',
         string $tipo_solicitacao_id = '0',
         int $userResp = 0,
-        array $currentUserRoles = []
+        array $currentUserPermissions = []
     ): array
     {
         $criteria = new Criteria();
@@ -52,7 +52,7 @@ class NegotiationRepository implements INegotiationRepository
         $criteria->add(new Filter('data_ocorrencia', '>=', $startDate));
         $criteria->add(new Filter('data_ocorrencia', '<=', $endDate));
 
-        if (!in_array('ROLE_ADMIN', $currentUserRoles)) {
+        if (!in_array('negociacoesFiltrarPorResp', $currentUserPermissions)) {
             $criteria->add(new Filter('usuario_id', '=', $usuario_id));
         }
 
@@ -66,7 +66,11 @@ class NegotiationRepository implements INegotiationRepository
             $criteria->add(new Filter('tipo_solicitacao_id', 'IN', $options));
         }
 
-        if (in_array('ROLE_ADMIN', $currentUserRoles) && isset($userResp) && $userResp !== 0) {
+        if (
+            in_array('negociacoesFiltrarPorResp', $currentUserPermissions) &&
+            isset($userResp) &&
+            $userResp !== 0
+        ) {
             $criteria->add(new Filter('usuario_id', '=', $userResp));
         }
 

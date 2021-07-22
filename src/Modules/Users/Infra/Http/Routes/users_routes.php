@@ -32,9 +32,23 @@ $userRoles = new Route(
     [], [], '', [], ['GET']
 );
 
+$userShow = new Route(
+    '/users/{id}',
+    ['_controller' => [UserController::class, 'show']],
+    [], [], '', [], ['GET']
+);
+
+$userUpdate = new Route(
+    '/users/{id}',
+    ['_controller' => [UserController::class, 'update']],
+    [], [], '', [], ['PUT']
+);
+
 $userRouter->add('boot', $boot);
 $userRouter->add('users-list', $usersList);
 $userRouter->add('user-create', $userCreate);
 $userRouter->add('user-roles', $userRoles);
+$userRouter->add('user-show', $userShow);
+$userRouter->add('user-update', $userUpdate);
 
 return $userRouter;

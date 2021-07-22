@@ -38,7 +38,11 @@ class TokenSubscriber implements EventSubscriberInterface
             }
 
             $requestToken = explode(' ', $authHeader);
-            $token1 = $requestToken[1];
+            $token1 = $requestToken[1] ?? '';
+
+            if (empty($token1) ) {
+                throw new AccessDeniedHttpException('Token invalid or not sent!');
+            }
 
             $config = getConfigJWT();
 

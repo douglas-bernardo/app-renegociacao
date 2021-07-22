@@ -20,7 +20,7 @@ interface IOccurrenceRepository
      * @param string $status
      * @param int $userResp
      * @param int|null $ts_usuario_id
-     * @param array $userRoles
+     * @param array $userPermissions
      * @return array
      */
     public function findAll(
@@ -31,7 +31,7 @@ interface IOccurrenceRepository
         string $status,
         int $userResp,
         int $ts_usuario_id = null,
-        array $userRoles = []
+        array $userPermissions = []
     ): array;
 
     /**

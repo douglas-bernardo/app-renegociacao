@@ -23,6 +23,11 @@ interface IUserRepository
      */
     public function findByEmail(string $email): ?User;
 
+    /**
+     * @param int $TsUserId
+     * @return User|null
+     */
+    public function findByTsUserId(int $TsUserId): ?User;
 
     /**
      * @param int $id
