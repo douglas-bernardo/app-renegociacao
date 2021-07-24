@@ -1,6 +1,8 @@
 <?php
 
 use App\Modules\Users\Infra\Http\Controllers\BootController;
+use App\Modules\Users\Infra\Http\Controllers\CreateNewPasswordController;
+use App\Modules\Users\Infra\Http\Controllers\ResetPasswordController;
 use App\Modules\Users\Infra\Http\Controllers\UserController;
 use App\Modules\Users\Infra\Http\Controllers\UserRoleController;
 use Symfony\Component\Routing\Route;
@@ -44,11 +46,25 @@ $userUpdate = new Route(
     [], [], '', [], ['PUT']
 );
 
+$createNewPassword = new Route(
+    '/users/{id}/create-password',
+    ['_controller' => [CreateNewPasswordController::class, 'update']],
+    [], [], '', [], ['PUT']
+);
+
+$resetPassword = new Route(
+    '/users/{id}/reset-password',
+    ['_controller' => [ResetPasswordController::class, 'update']],
+    [], [], '', [], ['PUT']
+);
+
 $userRouter->add('boot', $boot);
 $userRouter->add('users-list', $usersList);
 $userRouter->add('user-create', $userCreate);
 $userRouter->add('user-roles', $userRoles);
 $userRouter->add('user-show', $userShow);
 $userRouter->add('user-update', $userUpdate);
+$userRouter->add('create-password', $createNewPassword);
+$userRouter->add('reset-password', $resetPassword);
 
 return $userRouter;

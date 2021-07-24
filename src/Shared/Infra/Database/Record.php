@@ -57,7 +57,7 @@ abstract class Record
         if (method_exists($this, 'set_' . $prop)) {
             call_user_func(array($this, 'set_' . $prop), $value);
         } else {
-            if ($value == NULL) {
+            if ($value === NULL) {
                 unset($this->data[$prop]);
             } else {
                 $this->data[$prop] = $value;

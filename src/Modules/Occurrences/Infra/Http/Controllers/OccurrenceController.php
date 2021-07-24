@@ -79,8 +79,7 @@ class OccurrenceController extends AbstractController implements TokenAuthentica
         $this->authorizationManager
             ->getAuthorizations($user['uid'])
             ->is(['ROLE_ADMIN', 'ROLE_GERENTE', 'ROLE_COORDENADOR', 'ROLE_CONSULTOR'])
-            ->can('ocorrenciasVer')
-            ->getRoles();
+            ->can('ocorrenciasVer');
 
         /** @var ShowOccurrenceService $showOccurrenceService */
         $showOccurrenceService = $this->containerBuilder->get('showOccurrence.service');

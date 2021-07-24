@@ -55,6 +55,12 @@ services:
   updateUser.service:
     class: App\Modules\Users\Services\UpdateUserService
     arguments: [ "@user.repository" ]
+  resetPassword.service:
+    class: App\Modules\Users\Services\ResetPasswordService
+    arguments: [ "@user.repository" ]
+  createNewPassword.service:
+    class: App\Modules\Users\Services\CreateNewPasswordService
+    arguments: [ "@user.repository" ]
 
   # Occurrence
   listOccurrence.service:

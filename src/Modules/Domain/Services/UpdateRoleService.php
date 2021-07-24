@@ -22,7 +22,7 @@ class UpdateRoleService
      * @throws ApiException
      * @throws Exception
      */
-    public function execute(array $data, string $id): ? Role
+    public function execute(array $data, string $id): ?Role
     {
         $role = $this->roleRepository->findById($id);
 
@@ -30,16 +30,20 @@ class UpdateRoleService
             throw new ApiException("Role not found");
         }
 
-        if (
-            isset($data['permissions']) &&
-            is_array($data['permissions']) &&
-            !empty($data['permissions'])
-        ) {
-            $role->delPermissions();
-        }
+        try {
+            if (
+                isset($data['permissions']) &&
+                is_array($data['permissions']) &&
+                !empty($data['permissions'])
+            ) {
+                $role->delPermissions();
+            }
 
-        $role->fromArray($data);
-        $role->store();
-        return $role;
+            $role->fromArray($data);
+            $role->store();
+            return $role;
+        } catch (Exception $e) {
+            throw new ApiException($e->getMessage());
+        }
     }
 }

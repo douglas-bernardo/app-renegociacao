@@ -61,10 +61,10 @@ class PermissionsController extends AbstractController implements TokenAuthentic
         $constraint = new Collection([
             'name' => new NotBlank()
         ]);
+        Transaction::open($_ENV['APPLICATION']);
         $constraint->allowExtraFields = true;
         $this->validate($request_data,  $constraint);
 
-        Transaction::open($_ENV['APPLICATION']);
         $this->authorizationManager->getAuthorizations($user['uid'])->is(['ROLE_ADMIN']);
 
         /** @var CreatePermissionService $createPermissionService */

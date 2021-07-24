@@ -42,7 +42,7 @@ class CreateUserService
             throw new ApiException("E-mail informado já cadastrado para outro usuário");
         }
 
-        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        $data['password'] = password_hash(CONF_PASSWORD_DEFAULT, PASSWORD_DEFAULT);
         return $this->userRepository->create($data);
     }
 }
