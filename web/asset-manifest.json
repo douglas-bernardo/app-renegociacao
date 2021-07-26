@@ -1,0 +1,39 @@
+{
+  "files": {
+    "main.js": "/static/js/main.9070a145.chunk.js",
+    "main.js.map": "/static/js/main.9070a145.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.964130f1.js",
+    "runtime-main.js.map": "/static/js/runtime-main.964130f1.js.map",
+    "static/css/2.ba05cc94.chunk.css": "/static/css/2.ba05cc94.chunk.css",
+    "static/js/2.3e270b18.chunk.js": "/static/js/2.3e270b18.chunk.js",
+    "static/js/2.3e270b18.chunk.js.map": "/static/js/2.3e270b18.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.ba05cc94.chunk.css.map": "/static/css/2.ba05cc94.chunk.css.map",
+    "static/js/2.3e270b18.chunk.js.LICENSE.txt": "/static/js/2.3e270b18.chunk.js.LICENSE.txt",
+    "static/media/bag-money.b1eb7638.svg": "/static/media/bag-money.b1eb7638.svg",
+    "static/media/beachpark.7c4bb9d6.png": "/static/media/beachpark.7c4bb9d6.png",
+    "static/media/chart-money-down.479b661c.svg": "/static/media/chart-money-down.479b661c.svg",
+    "static/media/chart-money-up.0366288c.svg": "/static/media/chart-money-up.0366288c.svg",
+    "static/media/import.d642e6b8.png": "/static/media/import.d642e6b8.png",
+    "static/media/info.3832bd2f.svg": "/static/media/info.3832bd2f.svg",
+    "static/media/logoWhoops.9017adc6.svg": "/static/media/logoWhoops.9017adc6.svg",
+    "static/media/logo_vacation.8d634615.svg": "/static/media/logo_vacation.8d634615.svg",
+    "static/media/money-talk.fb38b80b.svg": "/static/media/money-talk.fb38b80b.svg",
+    "static/media/money.263359c9.svg": "/static/media/money.263359c9.svg",
+    "static/media/price-tag.78df34be.svg": "/static/media/price-tag.78df34be.svg",
+    "static/media/search.a86e8c87.svg": "/static/media/search.a86e8c87.svg",
+    "static/media/settings.1011ffda.png": "/static/media/settings.1011ffda.png",
+    "static/media/speak.baacefc6.svg": "/static/media/speak.baacefc6.svg",
+    "static/media/target.b9e784bf.png": "/static/media/target.b9e784bf.png",
+    "static/media/team.8f47c17c.png": "/static/media/team.8f47c17c.png",
+    "static/media/user.4a000e6c.svg": "/static/media/user.4a000e6c.svg",
+    "static/media/warning.0d14f5ed.svg": "/static/media/warning.0d14f5ed.svg",
+    "static/media/whatsapp.d5a0c6c6.svg": "/static/media/whatsapp.d5a0c6c6.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.964130f1.js",
+    "static/css/2.ba05cc94.chunk.css",
+    "static/js/2.3e270b18.chunk.js",
+    "static/js/main.9070a145.chunk.js"
+  ]
+}

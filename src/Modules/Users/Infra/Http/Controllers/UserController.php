@@ -9,6 +9,7 @@ use App\Modules\Users\Services\UpdateUserService;
 use App\Shared\Bundle\Controller\AbstractController;
 use App\Shared\Bundle\Controller\TokenAuthenticatedController;
 use App\Shared\Errors\ApiException;
+use App\Shared\Facades\Log\Log;
 use App\Shared\Infra\Database\Transaction;
 use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,16 +26,26 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class UserController extends AbstractController implements TokenAuthenticatedController
 {
     /**
+     * @param Request $request
      * @return JsonResponse
+     * @throws ApiException
      * @throws Exception
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
+        $query = $request->query->all();
+        $query = filter_var_array($query, FILTER_SANITIZE_STRING);
+
+        $params = [
+            'offset' => $query['offset'] ?? 0,
+            'limit' => $query['limit'] ?? 10
+        ];
+
         Transaction::open($_ENV['APPLICATION']);
 
         /** @var ListUsersService $listUsersService */
         $listUsersService = $this->containerBuilder->get('listUsers.service');
-        $users = $listUsersService->execute();
+        $users = $listUsersService->execute($params);
 
         Transaction::close();
         return new JsonResponse([

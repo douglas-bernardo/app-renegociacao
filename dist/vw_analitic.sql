@@ -1,4 +1,4 @@
--- CREATE OR REPLACE VIEW vw_analitic AS
+CREATE OR REPLACE VIEW vw_analitic AS
 select
 	n.id,
     -- dados de ocorrencia

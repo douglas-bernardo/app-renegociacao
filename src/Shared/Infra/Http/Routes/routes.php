@@ -1,5 +1,6 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -26,7 +27,9 @@ $routes->addCollection($reportsRouter);
  * Dashboard / Home
  */
 $routes->add('dashboard', new Route('/', [
-    '_controller' => 'App\Controller\DashboardController::index'
+    '_controller' => function(){
+        return new Response('2021 - API Renegociação Web | Powered By Análise e Controle BPVC');
+    }
 ]));
 
 return $routes;

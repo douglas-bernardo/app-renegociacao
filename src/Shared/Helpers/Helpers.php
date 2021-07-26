@@ -15,7 +15,7 @@ const CONF_LOG_FILE         =  __DIR__ . '/../../../logs/log.log';
  */
 const CONF_PASSWD_MIN_LEN = 8;
 const CONF_PASSWD_MAX_LEN = 40;
-const CONF_PASSWORD_DEFAULT = '12345678';
+const CONF_PASSWORD_DEFAULT = 'renegociacao';
 
 /**
  * DATES

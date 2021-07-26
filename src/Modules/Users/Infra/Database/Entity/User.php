@@ -92,7 +92,17 @@ class User extends Record
                 $roles[] = ['id' => $role->id, 'name' => $role->alias];
             }
         }
+
+        $permissions = [];
+        /** @var Role $role */
+        foreach ($this->getRoles() as $role) {
+            foreach ($role->getPermissions() as $permission) {
+                $permissions[] = $permission->key_word;
+            }
+        };
+
         $this->roles = $roles;
+        $this->permissions = array_values(array_unique($permissions));
         unset($this->password);
         return parent::toArray();
     }

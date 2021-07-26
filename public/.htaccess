@@ -10,7 +10,7 @@ RewriteCond %{THE_REQUEST} ^GET.*index\.php [NC]
 RewriteCond %{REQUEST_URI} !/system/.* [NC]
 RewriteRule (.*?)index\.php/*(.*) /$1$2 [R=301,NE,L]
 
-# redireciona suas páginas a partir  de index.php
+# redireciona suas páginas a partir de index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /index.php?url=$1 [QSA,L]

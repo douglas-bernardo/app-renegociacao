@@ -151,6 +151,7 @@ INSERT INTO permission (name, description, key_word) VALUES ('Configurações Us
 INSERT INTO permission (name, description, key_word) VALUES ('Configurações Usuários Criar', 'Permite a criação de um novo usuário nas configurações do sistema', 'configuracoesUsuariosCriar');
 INSERT INTO permission (name, description, key_word) VALUES ('Configurações Usuários Editar', 'Permite a edição de um usuário cadastrado no sistema', 'configuracoesUsuariosEditar');
 INSERT INTO permission (name, description, key_word) VALUES ('Configurações Usuários Excluir', 'Permite a exclusão de um usuário cadastrado no sistema', 'configuracoesUsuariosExcluir');
+INSERT INTO permission (name, description, key_word) VALUES ('Configurações Usuários Reset de Senha', 'Permite realizar o reset de senha de um usuário', 'configuracoesUsuariosResetDeSenha');
 
 -- Operation: occurrences
 INSERT INTO permission (name, description, key_word) VALUES ('Ocorrencias Ver', 'Permite visualizar as ocorrências cadastradas no sistema', 'ocorrenciasVer');
@@ -170,4 +171,3 @@ INSERT INTO permission (name, description, key_word) VALUES ('Negociações Fina
 INSERT INTO permission (name, description, key_word) VALUES ('Negociações Finalizar Retenção', 'Permite finalizar uma negociação como retenção', 'negociacaoFinalizarRetencao');
 INSERT INTO permission (name, description, key_word) VALUES ('Negociações Finalizar Reversão', 'Permite finalizar uma negociação como reversão', 'negociacaoFinalizarReversao');
 INSERT INTO permission (name, description, key_word) VALUES ('Negociações Finalizar Outros', 'Permite finalizar uma negociação como outros', 'negociacaoFinalizarOutros');
-

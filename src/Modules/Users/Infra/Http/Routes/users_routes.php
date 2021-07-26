@@ -28,12 +28,6 @@ $userCreate = new Route(
     [], [], '', [], ['POST']
 );
 
-$userRoles = new Route(
-    '/users/roles',
-    ['_controller' => [UserRoleController::class, 'index']],
-    [], [], '', [], ['GET']
-);
-
 $userShow = new Route(
     '/users/{id}',
     ['_controller' => [UserController::class, 'show']],
@@ -58,13 +52,19 @@ $resetPassword = new Route(
     [], [], '', [], ['PUT']
 );
 
+$userRoles = new Route(
+    '/users/{id}/roles',
+    ['_controller' => [UserRoleController::class, 'index']],
+    [], [], '', [], ['GET']
+);
+
 $userRouter->add('boot', $boot);
 $userRouter->add('users-list', $usersList);
 $userRouter->add('user-create', $userCreate);
-$userRouter->add('user-roles', $userRoles);
 $userRouter->add('user-show', $userShow);
 $userRouter->add('user-update', $userUpdate);
 $userRouter->add('create-password', $createNewPassword);
 $userRouter->add('reset-password', $resetPassword);
+$userRouter->add('user-roles', $userRoles);
 
 return $userRouter;

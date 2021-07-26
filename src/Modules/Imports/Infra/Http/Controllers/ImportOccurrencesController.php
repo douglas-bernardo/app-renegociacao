@@ -21,9 +21,8 @@ class ImportOccurrencesController
             $baseURL = $_ENV['URI_API_TIMESHARING'] . '/occurrences';
 
             $lastOcorrenciaId = (new Occurrence())->getLast();
-            $lastOcorrenciaObject = new Occurrence($lastOcorrenciaId);
-
-            if ($lastOcorrenciaObject->toArray()) {
+            if ($lastOcorrenciaId > 0) {
+                $lastOcorrenciaObject = new Occurrence($lastOcorrenciaId);
                 $lastOccurrence = $lastOcorrenciaObject->numero_ocorrencia;
                 $url = $baseURL . "/list-recent-occurrences-by-number/{$lastOccurrence}";
             } else {

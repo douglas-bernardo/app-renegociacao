@@ -33,13 +33,23 @@ class UserRepository implements IUserRepository
     }
 
     /**
+     * @param array $params
      * @return array
      * @throws Exception
      */
-    public function findAll(): array
+    public function findAll(array $params = []): array
     {
+        $offset = $params['offset'] ?? 0;
+        $limit = $params['limit'] ?? 10;
+        $criteria = new Criteria();
+        $criteria->add(new Filter('email', '!=', 'admin@admin.com.br'));
+        $criteria->setProperty('offset', $offset);
+        $criteria->setProperty('limit', $limit);
+
+        $repository = new Repository(User::class);
+        $users = $repository->load($criteria);
+
         $result = [];
-        $users = User::all();
         if ($users) {
             /** @var User $user */
             foreach ($users as $user) {

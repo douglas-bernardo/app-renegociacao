@@ -93,12 +93,9 @@ class AuthorizationManager
         /** @var Role $role */
         foreach ($this->roles as $role) {
             foreach ($role->getPermissions() as $permission) {
-                $permissions[] = $permission;
+                $permissions[] = $permission->key_word;
             }
         };
-        $currentPermissions = [];
-        /** @var Permission $permission */
-        foreach ($permissions as $permission) $currentPermissions[] = $permission->key_word;
-        return array_unique($currentPermissions);
+        return array_values(array_unique($permissions));
     }
 }

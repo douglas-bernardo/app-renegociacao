@@ -13,9 +13,10 @@ use App\Modules\Users\Infra\Database\Entity\User;
 interface IUserRepository
 {
     /**
+     * @param array $params
      * @return array
      */
-    public function findAll(): array;
+    public function findAll(array $params = []): array;
 
     /**
      * @param string $email

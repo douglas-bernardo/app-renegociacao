@@ -27,10 +27,11 @@ class ListUsersService
     }
 
     /**
+     * @param array $params
      * @return array
      */
-    public function execute(): array
+    public function execute(array $params = []): array
     {
-        return $this->userRepository->findAll();
+        return $this->userRepository->findAll($params);
     }
 }

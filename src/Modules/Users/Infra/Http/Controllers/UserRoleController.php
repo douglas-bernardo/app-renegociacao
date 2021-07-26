@@ -28,19 +28,23 @@ class UserRoleController extends AbstractController implements TokenAuthenticate
 {
     /**
      * @param Request $request
+     * @param string $id
      * @return JsonResponse
      * @throws ApiException
      * @throws Exception
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request, string $id): JsonResponse
     {
         $user = $request->attributes->get('user');
 
         Transaction::open($_ENV['APPLICATION']);
+        $this->authorizationManager
+            ->getAuthorizations($user['uid'])
+            ->is(['ROLE_ADMIN'])->can('configuracoesUsuariosEditar');
 
         /** @var ListUserRolesService $listUserRolesService */
         $listUserRolesService = $this->containerBuilder->get('listUserRoles.service');
-        $user_roles = $listUserRolesService->execute($user['uid']);
+        $user_roles = $listUserRolesService->execute((int) $id);
 
         Transaction::close();
         return new JsonResponse(['status' => 'success', 'data' => $user_roles]);
