@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `db_renegociacao`.`usuario` (
   `created_at` TIMESTAMP(2) NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP(2) NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC))
 ENGINE = InnoDB;
 
 
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `db_renegociacao`.`ocorrencia` (
   `created_at` TIMESTAMP(2) NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP(2) NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  INDEX `fk_ocorrencia_status_ocorrencia1_idx` (`status_ocorrencia_id` ASC) VISIBLE,
+  INDEX `fk_ocorrencia_status_ocorrencia1_idx` (`status_ocorrencia_id` ASC),
   CONSTRAINT `fk_ocorrencia_status_ocorrencia1`
     FOREIGN KEY (`status_ocorrencia_id`)
     REFERENCES `db_renegociacao`.`status_ocorrencia` (`id`)
@@ -167,13 +167,13 @@ CREATE TABLE IF NOT EXISTS `db_renegociacao`.`negociacao` (
   `created_at` TIMESTAMP(2) NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP(2) NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  INDEX `fk_caixa_renegociacao_usuario_idx` (`usuario_id` ASC) VISIBLE,
-  INDEX `fk_caixa_renegociacao_origem1_idx` (`origem_id` ASC) VISIBLE,
-  INDEX `fk_caixa_renegociacao_tipo_solicitacao1_idx` (`tipo_solicitacao_id` ASC) VISIBLE,
-  INDEX `fk_negociacao_ocorrencia1_idx` (`ocorrencia_id` ASC) VISIBLE,
-  INDEX `fk_negociacao_tipo_contato1_idx` (`tipo_contato_id` ASC) VISIBLE,
-  INDEX `fk_negociacao_motivo1_idx` (`motivo_id` ASC) VISIBLE,
-  INDEX `fk_negociacao_situacao1_idx` (`situacao_id` ASC) VISIBLE,
+  INDEX `fk_caixa_renegociacao_usuario_idx` (`usuario_id` ASC),
+  INDEX `fk_caixa_renegociacao_origem1_idx` (`origem_id` ASC),
+  INDEX `fk_caixa_renegociacao_tipo_solicitacao1_idx` (`tipo_solicitacao_id` ASC),
+  INDEX `fk_negociacao_ocorrencia1_idx` (`ocorrencia_id` ASC),
+  INDEX `fk_negociacao_tipo_contato1_idx` (`tipo_contato_id` ASC),
+  INDEX `fk_negociacao_motivo1_idx` (`motivo_id` ASC),
+  INDEX `fk_negociacao_situacao1_idx` (`situacao_id` ASC),
   CONSTRAINT `fk_caixa_renegociacao_usuario`
     FOREIGN KEY (`usuario_id`)
     REFERENCES `db_renegociacao`.`usuario` (`id`)
@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `db_renegociacao`.`retencao` (
   `created_at` TIMESTAMP(2) NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP(2) NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  INDEX `fk_retencao_negociacao1_idx` (`negociacao_id` ASC) VISIBLE,
+  INDEX `fk_retencao_negociacao1_idx` (`negociacao_id` ASC),
   CONSTRAINT `fk_retencao_negociacao1`
     FOREIGN KEY (`negociacao_id`)
     REFERENCES `db_renegociacao`.`negociacao` (`id`)
@@ -263,8 +263,8 @@ CREATE TABLE IF NOT EXISTS `db_renegociacao`.`reversao` (
   `created_at` TIMESTAMP(2) NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` TIMESTAMP(2) NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  INDEX `fk_reversao_negociacao1_idx` (`negociacao_id` ASC) VISIBLE,
-  INDEX `fk_reversao_projeto1_idx` (`produto_id` ASC) VISIBLE,
+  INDEX `fk_reversao_negociacao1_idx` (`negociacao_id` ASC),
+  INDEX `fk_reversao_projeto1_idx` (`produto_id` ASC),
   CONSTRAINT `fk_reversao_negociacao1`
     FOREIGN KEY (`negociacao_id`)
     REFERENCES `db_renegociacao`.`negociacao` (`id`)
@@ -286,7 +286,7 @@ CREATE TABLE IF NOT EXISTS `db_renegociacao`.`cancelamento` (
   `negociacao_id` INT NOT NULL,
   `multa` DECIMAL(10,2) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  INDEX `fk_cancelamento_negociacao1_idx` (`negociacao_id` ASC) VISIBLE,
+  INDEX `fk_cancelamento_negociacao1_idx` (`negociacao_id` ASC),
   CONSTRAINT `fk_cancelamento_negociacao1`
     FOREIGN KEY (`negociacao_id`)
     REFERENCES `db_renegociacao`.`negociacao` (`id`)
@@ -330,8 +330,8 @@ CREATE TABLE IF NOT EXISTS `db_renegociacao`.`role_permission` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `role_id` INT NOT NULL,
   `permission_id` INT NOT NULL,
-  INDEX `fk_permission_role_role1_idx` (`role_id` ASC) VISIBLE,
-  INDEX `fk_permission_role_permission1_idx` (`permission_id` ASC) VISIBLE,
+  INDEX `fk_permission_role_role1_idx` (`role_id` ASC),
+  INDEX `fk_permission_role_permission1_idx` (`permission_id` ASC),
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_permission_role_role1`
     FOREIGN KEY (`role_id`)
@@ -353,8 +353,8 @@ CREATE TABLE IF NOT EXISTS `db_renegociacao`.`user_role` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
   `role_id` INT NOT NULL,
-  INDEX `fk_user_role_usuario1_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_user_role_role1_idx` (`role_id` ASC) VISIBLE,
+  INDEX `fk_user_role_usuario1_idx` (`user_id` ASC),
+  INDEX `fk_user_role_role1_idx` (`role_id` ASC),
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_user_role_usuario1`
     FOREIGN KEY (`user_id`)
@@ -391,11 +391,11 @@ CREATE TABLE IF NOT EXISTS `db_renegociacao`.`transferencia_negociacao` (
   `data_transferencia` DATETIME(2) NOT NULL,
   `motivo_transferencia_id` INT NOT NULL,
   `observacoes` LONGTEXT NULL,
-  INDEX `fk_transferencia_negociacao_usuario1_idx` (`usuario_antigo_id` ASC) VISIBLE,
-  INDEX `fk_transferencia_negociacao_usuario2_idx` (`usuario_novo_id` ASC) VISIBLE,
-  INDEX `fk_transferencia_negociacao_negociacao1_idx` (`negociacao_id` ASC) VISIBLE,
-  INDEX `fk_transferencia_negociacao_usuario3_idx` (`usuario_inclusao_id` ASC) VISIBLE,
-  INDEX `fk_transferencia_negociacao_motivo_transferencia1_idx` (`motivo_transferencia_id` ASC) VISIBLE,
+  INDEX `fk_transferencia_negociacao_usuario1_idx` (`usuario_antigo_id` ASC),
+  INDEX `fk_transferencia_negociacao_usuario2_idx` (`usuario_novo_id` ASC),
+  INDEX `fk_transferencia_negociacao_negociacao1_idx` (`negociacao_id` ASC),
+  INDEX `fk_transferencia_negociacao_usuario3_idx` (`usuario_inclusao_id` ASC),
+  INDEX `fk_transferencia_negociacao_motivo_transferencia1_idx` (`motivo_transferencia_id` ASC),
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_transferencia_negociacao_usuario1`
     FOREIGN KEY (`usuario_antigo_id`)

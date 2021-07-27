@@ -38,34 +38,52 @@ class BootService
     }
 
     /**
-     * @param array $adminRoleData
+     * @param array $rolesData
      * @param array $adminUserData
      * @return User
      * @throws ApiException
      */
-    public function execute(array $adminRoleData, array $adminUserData): User
+    public function execute(array $rolesData, array $adminUserData): User
     {
-        $permissions = $this->permissionRepository->findAll();
-        if (empty($permissions)) {
-            throw new ApiException("Permissions was not registered!");
-        }
-
         $userExists = $this->userRepository->findByEmail($adminUserData['email']);
         if ($userExists) {
             throw new ApiException("Boot system already executed!");
         }
 
-        $permissionsIds = [];
-        foreach ($permissions as $permission) $permissionsIds[] = $permission['id'];
-        $adminRoleData['permissions'] = $permissionsIds;
-
-        $role = $this->roleRepository->create($adminRoleData);
-        if (!$role) {
-            throw new ApiException("Role creation failed!");
+        if (empty($rolesData)) {
+            throw new ApiException("Roles data can not be empty");
         }
 
-        $adminUserData['roles'] = [$role->id];
-        $adminUserData['password'] = password_hash($adminUserData['password'], PASSWORD_DEFAULT);
-        return $this->userRepository->create($adminUserData);
+        if (empty($adminUserData)) {
+            throw new ApiException("Admin data can not be empty");
+        }
+
+        $permissions = $this->permissionRepository->findAll();
+        if (empty($permissions)) {
+            throw new ApiException("Permissions was not created");
+        }
+
+        try {
+            foreach ($rolesData as $role) {
+                $this->roleRepository->create($role);
+            }
+
+            $admin = $this->roleRepository->findByAlias('ROLE_ADMIN');
+            if (!$admin) {
+                throw new ApiException("Admin role creation failed!");
+            }
+
+            $permissionsIds = [];
+            foreach ($permissions as $permission) $permissionsIds[] = $permission['id'];
+            $admin->permissions = $permissionsIds;
+            $admin->store();
+
+            $adminUserData['roles'] = [$admin->id];
+            $adminUserData['password'] = password_hash($adminUserData['password'], PASSWORD_DEFAULT);
+            return $this->userRepository->create($adminUserData);
+
+        } catch (\Exception $e) {
+            throw new ApiException($e->getMessage());
+        }
     }
 }

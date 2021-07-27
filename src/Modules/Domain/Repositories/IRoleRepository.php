@@ -11,4 +11,5 @@ interface IRoleRepository
     public function findAll(): array;
     public function create(array $data): ? Role;
     public function findById(int $id): ?Role;
+    public function findByAlias(string $aliasName): ?Role;
 }

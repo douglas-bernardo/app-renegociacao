@@ -52,4 +52,16 @@ class RoleRepository implements IRoleRepository
         $result = $repository->load($criteria);
         return $result ? $result[0] : null;
     }
+
+    /**
+     * @throws Exception
+     */
+    public function findByAlias(string $aliasName): ?Role
+    {
+        $criteria = new Criteria();
+        $criteria->add(new Filter('alias', '=', $aliasName));
+        $repository = new Repository(Role::class);
+        $result = $repository->load($criteria);
+        return $result ? $result[0] : null;
+    }
 }

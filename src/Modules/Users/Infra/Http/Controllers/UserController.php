@@ -70,12 +70,10 @@ class UserController extends AbstractController implements TokenAuthenticatedCon
         $constraint = new Collection([
             'primeiro_nome' => new NotBlank(),
             'nome' => new NotBlank(),
-            'email'=> new Email(),
-            'password' => [new NotBlank(), new Length(['min' => 6])]
+            'email'=> new Email(['message' => 'E-mail inválido'])
         ]);
         $constraint->allowExtraFields = true;
         $this->validate($request_data, $constraint);
-
 
         /** @var CreateUserService $createUserService */
         $createUserService = $this->containerBuilder->get('createUser.service');

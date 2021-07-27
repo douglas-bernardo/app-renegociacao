@@ -24,9 +24,11 @@ class BootController extends AbstractController
     {
         Transaction::open($_ENV['APPLICATION']);
 
-        $adminRoleData = [
-            "name" => "ADMIN",
-	        "description" => "Administrador"
+        $rolesData = [
+            ["name" => "ADMIN", "description" => "Administrador"],
+            ["name" => "Gerente", "description" => "Gerente"],
+            ["name" => "Coordenador", "description" => "Coordenador"],
+            ["name" => "Consultor", "description" => "Consultor"]
         ];
 
         $adminUserData = [
@@ -38,7 +40,7 @@ class BootController extends AbstractController
 
         /** @var BootService $bootService */
         $bootService = $this->containerBuilder->get('bootService.service');
-        $userAdmin = $bootService->execute($adminRoleData, $adminUserData)->toArray();
+        $userAdmin = $bootService->execute($rolesData, $adminUserData)->toArray();
 
         Transaction::close();
 

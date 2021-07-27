@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.js": "/static/js/main.9070a145.chunk.js",
-    "main.js.map": "/static/js/main.9070a145.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.964130f1.js",
-    "runtime-main.js.map": "/static/js/runtime-main.964130f1.js.map",
+    "main.js": "/static/js/main.fe43522a.chunk.js",
+    "main.js.map": "/static/js/main.fe43522a.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.90156547.js",
+    "runtime-main.js.map": "/static/js/runtime-main.90156547.js.map",
     "static/css/2.ba05cc94.chunk.css": "/static/css/2.ba05cc94.chunk.css",
-    "static/js/2.3e270b18.chunk.js": "/static/js/2.3e270b18.chunk.js",
-    "static/js/2.3e270b18.chunk.js.map": "/static/js/2.3e270b18.chunk.js.map",
+    "static/js/2.2a3d1471.chunk.js": "/static/js/2.2a3d1471.chunk.js",
+    "static/js/2.2a3d1471.chunk.js.map": "/static/js/2.2a3d1471.chunk.js.map",
     "index.html": "/index.html",
     "static/css/2.ba05cc94.chunk.css.map": "/static/css/2.ba05cc94.chunk.css.map",
-    "static/js/2.3e270b18.chunk.js.LICENSE.txt": "/static/js/2.3e270b18.chunk.js.LICENSE.txt",
+    "static/js/2.2a3d1471.chunk.js.LICENSE.txt": "/static/js/2.2a3d1471.chunk.js.LICENSE.txt",
     "static/media/bag-money.b1eb7638.svg": "/static/media/bag-money.b1eb7638.svg",
     "static/media/beachpark.7c4bb9d6.png": "/static/media/beachpark.7c4bb9d6.png",
     "static/media/chart-money-down.479b661c.svg": "/static/media/chart-money-down.479b661c.svg",
@@ -31,9 +31,9 @@
     "static/media/whatsapp.d5a0c6c6.svg": "/static/media/whatsapp.d5a0c6c6.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.964130f1.js",
+    "static/js/runtime-main.90156547.js",
     "static/css/2.ba05cc94.chunk.css",
-    "static/js/2.3e270b18.chunk.js",
-    "static/js/main.9070a145.chunk.js"
+    "static/js/2.2a3d1471.chunk.js",
+    "static/js/main.fe43522a.chunk.js"
   ]
 }
