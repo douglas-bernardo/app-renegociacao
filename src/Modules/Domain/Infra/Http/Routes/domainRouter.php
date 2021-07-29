@@ -70,11 +70,18 @@ $roleUpdate = new Route(
     [], [], '', [], ['PUT']
 );
 
+$roleShow = new Route(
+    '/role/{id}',
+    ['_controller' => [RolesController::class, 'show']],
+    [], [], '', [], ['GET']
+);
+
 $domainRouter->add('permissions-list', $permissionsList);
 $domainRouter->add('permission-create', $permissionCreate);
 $domainRouter->add('role-list', $roleList);
 $domainRouter->add('role-create', $roleCreate);
 $domainRouter->add('role-update', $roleUpdate);
+$domainRouter->add('role-show', $roleShow);
 
 $domainRouter->addPrefix('/domain');
 return $domainRouter;

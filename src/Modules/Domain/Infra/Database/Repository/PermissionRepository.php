@@ -6,6 +6,8 @@ namespace App\Modules\Domain\Infra\Database\Repository;
 
 use App\Modules\Domain\Infra\Database\Entity\Permission;
 use App\Modules\Domain\Repositories\IPermissionRepository;
+use App\Shared\Infra\Database\Criteria;
+use App\Shared\Infra\Database\Repository;
 use Exception;
 
 /**
@@ -20,8 +22,11 @@ class PermissionRepository implements IPermissionRepository
      */
     public function findAll(): array
     {
+        $criteria = new Criteria();
+        $criteria->setProperty('order', 'name desc');
+        $repository = new Repository(Permission::class);
+        $permissions = $repository->load($criteria);
         $result = [];
-        $permissions = Permission::all();
         if ($permissions) {
             /** @var Permission $permission */
             foreach ($permissions as $permission) {

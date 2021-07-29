@@ -147,6 +147,9 @@ INSERT INTO permission (name, description, key_word) VALUES ('Configurações Pe
 INSERT INTO permission (name, description, key_word) VALUES ('Configurações Permissões Editar', 'Permite a edição permissões cadastradas no sistema', 'configuracoesPermissoesEditar');
 INSERT INTO permission (name, description, key_word) VALUES ('Configurações Permissões Excluir', 'Permite a exclusão permissões cadastradas no sistema', 'configuracoesPermissoesExcluir');
 
+INSERT INTO permission (name, description, key_word) VALUES ('Configurações Funções Ver', 'Permite a visualização dos cargos/funções cadastrados no sistema', 'configuracoesFuncoesVer');
+INSERT INTO permission (name, description, key_word) VALUES ('Configurações Funções Editar', 'Permite a edição dos cargos/funções cadastrados no sistema', 'configuracoesFuncoesEditar');
+
 INSERT INTO permission (name, description, key_word) VALUES ('Configurações Usuários Ver', 'Permite a visualização da lista de usuários atuais cadastrados no sistema', 'configuracoesUsuariosVer');
 INSERT INTO permission (name, description, key_word) VALUES ('Configurações Usuários Criar', 'Permite a criação de um novo usuário nas configurações do sistema', 'configuracoesUsuariosCriar');
 INSERT INTO permission (name, description, key_word) VALUES ('Configurações Usuários Editar', 'Permite a edição de um usuário cadastrado no sistema', 'configuracoesUsuariosEditar');

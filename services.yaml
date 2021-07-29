@@ -35,6 +35,9 @@ services:
   listRoles.service:
     class: App\Modules\Domain\Services\ListRolesService
     arguments: [ "@role.repository" ]
+  showRole.service:
+    class: App\Modules\Domain\Services\ShowRoleService
+    arguments: [ "@role.repository" ]
 
   # User
   authenticateUser.service:

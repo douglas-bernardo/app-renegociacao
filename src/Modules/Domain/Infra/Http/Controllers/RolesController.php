@@ -7,6 +7,7 @@ namespace App\Modules\Domain\Infra\Http\Controllers;
 use App\Modules\Domain\Services\CreateRoleService;
 use App\Modules\Domain\Services\ListRolesService;
 use App\Modules\Domain\Services\UpdateRoleService;
+use App\Modules\Users\Services\ShowUserService;
 use App\Shared\Bundle\Controller\AbstractController;
 use App\Shared\Bundle\Controller\TokenAuthenticatedController;
 use App\Shared\Errors\ApiException;
@@ -89,5 +90,29 @@ class RolesController extends AbstractController implements TokenAuthenticatedCo
         Transaction::close();
 
         return new JsonResponse(['status' => 'success', 'role' => $role]);
+    }
+
+    /**
+     * @throws ApiException
+     * @throws Exception
+     */
+    public function show(Request $request, string $id): JsonResponse
+    {
+        $user = $request->attributes->get('user');
+
+        Transaction::open($_ENV['APPLICATION']);
+
+        $this->authorizationManager
+            ->getAuthorizations($user['uid'])
+            ->is(['ROLE_ADMIN', 'ROLE_GERENTE', 'ROLE_COORDENADOR'])
+            ->can('configuracoesFuncoesVer');
+
+        /** @var ShowUserService $showRoleService */
+        $showRoleService = $this->containerBuilder->get('showRole.service');
+        $role = $showRoleService->execute((int)$id)->toArray();
+
+        Transaction::close();
+
+        return new JsonResponse(['status' => 'success', 'data' => $role]);
     }
 }

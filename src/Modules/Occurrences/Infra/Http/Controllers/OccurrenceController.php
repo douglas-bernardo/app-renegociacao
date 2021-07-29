@@ -66,12 +66,12 @@ class OccurrenceController extends AbstractController implements TokenAuthentica
 
     /**
      * @param Request $request
-     * @param $id
+     * @param string $id
      * @return JsonResponse
      * @throws ApiException
      * @throws Exception
      */
-    public function show(Request $request, $id): JsonResponse
+    public function show(Request $request, string $id): JsonResponse
     {
         $user = $request->attributes->get('user');
 
@@ -83,7 +83,7 @@ class OccurrenceController extends AbstractController implements TokenAuthentica
 
         /** @var ShowOccurrenceService $showOccurrenceService */
         $showOccurrenceService = $this->containerBuilder->get('showOccurrence.service');
-        $occurrence = $showOccurrenceService->execute($id)->toArray();
+        $occurrence = $showOccurrenceService->execute((int) $id)->toArray();
 
         Transaction::close();
 

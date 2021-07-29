@@ -25,7 +25,6 @@ class OpenPercentageController extends AbstractController implements TokenAuthen
             $query = filter_var_array($query, FILTER_SANITIZE_STRING);
 
             Transaction::open($_ENV['APPLICATION']);
-            Transaction::setLogger(Log::getInstance());
 
             $yearResults = $query['year'] ?? date("Y");
             $repository = new Repository(AmountOpened::class, true);
