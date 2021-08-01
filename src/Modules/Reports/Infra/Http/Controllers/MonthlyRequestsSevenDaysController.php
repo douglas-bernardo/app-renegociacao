@@ -45,14 +45,14 @@ class MonthlyRequestsSevenDaysController extends AbstractController implements T
                                         AND (ano_fin = {$query['year']} or ano_fin is null)
                                         AND tipo_solicitacao_id = 1
                                         AND situacao_id in (1, 2, 6, 7)
-                                        AND id_usuario_resp_ts = {$user['ts_usuario_id']}
+                                        AND usuario_id = {$user['uid']}
                                     GROUP BY ciclo_ini_num order by ciclo_ini_num");
 
             $dataset = [];
             foreach ($result as $row) {
                 $dataset[] =   [
                     'cycle_end' => $row['cycle_end'],
-                    'negotiator_name' => $row['negotiator_name'],
+                    'negotiator_name' => ucfirst($row['negotiator_name']),
                     'request_value' => $row['request_value'],
                     'profit' => $row['profit'],
                     'efficiency' => $row['efficiency']

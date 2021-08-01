@@ -32,17 +32,17 @@ class AmountReceivedController extends AbstractController implements TokenAuthen
             Transaction::open($_ENV['APPLICATION']);
             $conn = Transaction::get();
 
-            $result = $conn->query("SELECT 
-                                        vw.situacao_id,
-                                        vw.situacao AS description,
-                                        sum(vw.valor_venda) AS amount_received
-                                    FROM 
-                                        vw_analitic vw
-                                    WHERE 
-                                        vw.id_usuario_resp_ts = {$user['ts_usuario_id']}
-                                        AND vw.ano_sol = {$query['year']}
-                                        AND vw.situacao_id IN (1, 2, 6, 7)
-                                    GROUP BY 1");
+            $result = $conn->query("SELECT
+                                                    situacao_id,
+                                                    situacao AS description,
+                                                    sum(valor_venda) AS amount_received
+                                                FROM 
+                                                    vw_analitic
+                                                WHERE 
+                                                    usuario_id = {$user['uid']}
+                                                    AND ano_sol = {$query['year']}
+                                                    AND situacao_id IN (1, 2, 6, 7)
+                                                GROUP BY 1");
 
             $dataset = [];
             foreach ($result as $row) {

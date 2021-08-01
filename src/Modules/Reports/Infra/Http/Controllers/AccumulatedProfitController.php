@@ -50,7 +50,7 @@ class AccumulatedProfitController extends AbstractController implements TokenAut
                                             AND (ano_fin = {$query['year']} or ano_fin is null)
                                             AND tipo_solicitacao_id IN (2, 4)
                                             AND situacao_id in (1, 2, 6, 7)
-                                            AND id_usuario_resp_ts = {$user['ts_usuario_id']}
+                                            AND usuario_id = {$user['uid']}
                                         GROUP BY ciclo_fim_num, ciclo_fin, usuario_resp_negociacao
                                         ORDER BY ciclo_fim_num");
 

@@ -43,7 +43,7 @@ class MonthlyRequestsSummaryController extends AbstractController implements Tok
                                                 ano_sol = {$query['year']}
                                                 AND tipo_solicitacao_id IN (2, 4)
                                                 AND situacao_id in (1, 2, 6, 7)
-                                                AND id_usuario_resp_ts = {$user['ts_usuario_id']}
+                                                AND usuario_id = {$user['uid']}
                                             GROUP BY ciclo_ini");
 
             $dataset = [];

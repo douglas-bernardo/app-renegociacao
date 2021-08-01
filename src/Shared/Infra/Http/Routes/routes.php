@@ -11,23 +11,24 @@ $userRouter = include_once __DIR__ . '/../../../../Modules/Users/Infra/Http/Rout
 $occurrenceRouter = include_once __DIR__ . '/../../../../Modules/Occurrences/Infra/Http/Routes/occurrenceRouter.php';
 $negotiationRouter = include_once __DIR__ . '/../../../../Modules/Negotiations/Infra/Http/Routes/negotiationRouter.php';
 $reportsRouter = include_once __DIR__ . '/../../../../Modules/Reports/Infra/Http/Routes/reportsRouter.php';
+$adminReportsRouter = include_once __DIR__ . '/../../../../Modules/Reports/Infra/Http/Routes/adminReportsRouter.php';
 
 $routes = new RouteCollection();
 
 $routes->addCollection($domainRouter);
 $routes->addCollection($importsRouter);
-
 $routes->addCollection($sessionRouter);
 $routes->addCollection($userRouter);
 $routes->addCollection($occurrenceRouter);
 $routes->addCollection($negotiationRouter);
 $routes->addCollection($reportsRouter);
+$routes->addCollection($adminReportsRouter);
 
 /**
- * Dashboard / Home
+ * Root
  */
 $routes->add('dashboard', new Route('/', [
-    '_controller' => function(){
+    '_controller' => function () {
         return new Response('2021 - API Renegociação Web | Powered By Análise e Controle BPVC');
     }
 ]));

@@ -130,7 +130,7 @@ class NegotiationController extends AbstractController implements TokenAuthentic
         Transaction::open($_ENV['APPLICATION']);
         $this->authorizationManager->getAuthorizations($user['uid'])
             ->is(['ROLE_ADMIN', 'ROLE_GERENTE', 'ROLE_COORDENADOR'])
-            ->can('negociacaoDeletar');
+            ->can('negociacaoExcluir');
 
         /** @var DeleteNegotiationService $deleteNegotiationService */
         $deleteNegotiationService = $this->containerBuilder->get('deleteNegotiation.service');
