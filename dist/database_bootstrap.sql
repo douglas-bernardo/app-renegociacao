@@ -139,6 +139,32 @@ INSERT INTO motivo_transferencia (nome) VALUES ('Erro Operacional - Transferênc
 INSERT INTO motivo_transferencia (nome) VALUES ('Outros Motivos');
 
 -- -----------------------------------------------------
+-- Carga dados: goal_type
+-- -----------------------------------------------------
+INSERT INTO goal_type (`name`) VALUES ('Eficiência Pós 7 Dias');
+INSERT INTO goal_type (`name`) VALUES ('Eficiência 7 Dias');
+INSERT INTO goal_type (`name`) VALUES ('Eficiência PDD');
+INSERT INTO goal_type (`name`) VALUES ('Valores Em Aberto');
+INSERT INTO goal_type (`name`) VALUES ('Perda Financeira');
+INSERT INTO goal_type (`name`) VALUES ('Valores Em Aberto PDD');
+
+-- -----------------------------------------------------
+-- Carga dados: goal_type
+-- -----------------------------------------------------
+INSERT INTO `month` (`name`, `month_number`) VALUES ('janeiro', 1);
+INSERT INTO `month` (`name`, `month_number`) VALUES ('fevereiro', 2);
+INSERT INTO `month` (`name`, `month_number`) VALUES ('marco', 3);
+INSERT INTO `month` (`name`, `month_number`) VALUES ('abril', 4);
+INSERT INTO `month` (`name`, `month_number`) VALUES ('maio', 5);
+INSERT INTO `month` (`name`, `month_number`) VALUES ('junho', 6);
+INSERT INTO `month` (`name`, `month_number`) VALUES ('julho', 7);
+INSERT INTO `month` (`name`, `month_number`) VALUES ('agosto', 8);
+INSERT INTO `month` (`name`, `month_number`) VALUES ('setembro', 9);
+INSERT INTO `month` (`name`, `month_number`) VALUES ('outubro', 10);
+INSERT INTO `month` (`name`, `month_number`) VALUES ('novembro', 11);
+INSERT INTO `month` (`name`, `month_number`) VALUES ('dezembro', 12);
+
+-- -----------------------------------------------------
 -- Carga dados: permission
 -- -----------------------------------------------------
 -- Settings

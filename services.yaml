@@ -6,6 +6,8 @@ services:
     class: App\Modules\Domain\Infra\Database\Repository\PermissionRepository
   role.repository:
     class: App\Modules\Domain\Infra\Database\Repository\RoleRepository
+  goal.repository:
+    class: App\Modules\Domain\Infra\Database\Repository\GoalRepository
   occurrence.repository:
     class: App\Modules\Occurrences\Infra\Database\Repository\OccurrenceRepository
   negotiation.repository:
@@ -38,6 +40,15 @@ services:
   showRole.service:
     class: App\Modules\Domain\Services\ShowRoleService
     arguments: [ "@role.repository" ]
+  listGoals.service:
+    class: App\Modules\Domain\Services\ListGoalsService
+    arguments: [ "@goal.repository" ]
+  createGoal.service:
+    class: App\Modules\Domain\Services\CreateGoalService
+    arguments: [ "@goal.repository" ]
+  updateGoal.service:
+    class: App\Modules\Domain\Services\UpdateGoalService
+    arguments: [ "@goal.repository" ]
 
   # User
   authenticateUser.service:

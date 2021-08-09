@@ -1,22 +1,41 @@
 -- Eficiência Acumulada
 /*
 SELECT
+	ano_sol,
 	usuario_resp_negociacao as negociador,
 	count(numero_ocorrencia) as ocorrencias_recebidas,
 	sum(valor_venda) as valor_solicitado,
 	sum(faturamento) as valor_faturamento,
 	sum(perda_financeira) as valor_perda_financeira,
 	round( (sum(faturamento) / sum(valor_venda)) * 100, 2) AS eficiencia_percentual,
-	round( (sum(perda_financeira) / sum(valor_venda)) * 100, 2) AS perda_financeira_percentual
+	round( (sum(perda_financeira) / sum(valor_venda)) * 100, 2) AS perda_financeira_percentual,
+    goal.target as meta
 FROM
 	vw_analitic
+LEFT JOIN (SELECT 
+				g.id,
+				g.goal_type_id,
+				g.current_year,
+				g.active,
+				gm.target,
+				m.month_number
+			FROM
+				goal g
+					LEFT JOIN
+				goal_type gt ON g.goal_type_id = gt.id
+					LEFT JOIN
+				goal_month gm ON gm.goal_id = g.id
+					LEFT JOIN
+				month m ON gm.month_id = m.id
+			WHERE
+				m.month_number = date_format( now() , '%c') AND 
+				g.current_year = 2021) AS goal ON goal.current_year = vw_analitic.ano_sol
 WHERE
 	ano_sol = 2021
 	AND tipo_solicitacao_id IN (2, 4)
 	AND situacao_id in (1, 2, 6, 7)
-	-- AND usuario_id = 2
 GROUP BY 
-	usuario_resp_negociacao
+	usuario_resp_negociacao, ano_sol
 */
 
 -- Eficiência 7 Dias Acumulada
@@ -41,14 +60,14 @@ GROUP BY
 */    
 
 -- Percentual em aberto
-/*
+
 SELECT
     n.usuario_id,
     DATE_FORMAT( o.dtocorrencia , '%Y') AS ano_sol,
     u.primeiro_nome AS usuario_resp,
     sum(o.valor_venda) AS valor_solicitado,
-    vl_aberto.valor_em_aberto,
-    round((vl_aberto.valor_em_aberto / sum(o.valor_venda)) * 100, 2 ) AS percentual
+    IFnull(vl_aberto.valor_em_aberto, 0) AS valor_em_aberto,
+    IFnull(round((vl_aberto.valor_em_aberto / sum(o.valor_venda)) * 100, 2 ), 0) AS percentual
 FROM
     negociacao n
         LEFT JOIN ocorrencia o ON n.ocorrencia_id = o.id
@@ -72,7 +91,7 @@ WHERE
   AND n.situacao_id IN (1, 2, 6, 7)
   AND 1 = 1
 GROUP BY n.usuario_id, ano_sol
-*/
+
 
 -- Caixa Retenção/Reversão
 /*
@@ -94,7 +113,7 @@ GROUP BY usuario_resp_negociacao;
 */
 
 -- Eficiência Retenção Acumulada
-
+/*
 SELECT
 	usuario_resp_negociacao as negociadora,
     count(numero_ocorrencia) as ocorrencias_recebidas,
@@ -109,3 +128,26 @@ WHERE
 	AND situacao_id in (1, 2, 6, 7)
 	-- AND usuario_id = {$user['uid']}
 GROUP BY usuario_resp_negociacao
+*/
+
+-- metas
+/*
+SELECT 
+    g.id,
+    g.goal_type_id,
+    g.current_year,
+    g.active,
+    gm.target,
+    m.month_number
+FROM
+    goal g
+        LEFT JOIN
+    goal_type gt ON g.goal_type_id = gt.id
+        LEFT JOIN
+    goal_month gm ON gm.goal_id = g.id
+        LEFT JOIN
+    month m ON gm.month_id = m.id
+WHERE
+    m.month_number = date_format( now() , '%c') AND 
+    g.current_year = date_format( now() , '%Y');
+*/

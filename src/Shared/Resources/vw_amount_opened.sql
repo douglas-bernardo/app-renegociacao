@@ -1,9 +1,9 @@
 SELECT n.usuario_id,
-       DATE_FORMAT(o.dtocorrencia, '%Y')                                AS ano_sol,
-       u.primeiro_nome                                                  AS usuario_resp,
-       sum(o.valor_venda)                                               AS valor_solicitado,
-       vl_aberto.valor_em_aberto,
-       round((vl_aberto.valor_em_aberto / sum(o.valor_venda)) * 100, 2) AS percentual
+       DATE_FORMAT(o.dtocorrencia, '%Y')                                           AS ano_sol,
+       u.primeiro_nome                                                             AS usuario_resp,
+       sum(o.valor_venda)                                                          AS valor_solicitado,
+       IFnull(vl_aberto.valor_em_aberto, 0)                                        AS valor_em_aberto,
+       IFnull(round((vl_aberto.valor_em_aberto / sum(o.valor_venda)) * 100, 2), 0) AS percentual
 FROM negociacao n
          LEFT JOIN ocorrencia o ON n.ocorrencia_id = o.id
          LEFT JOIN usuario u ON n.usuario_id = u.id

@@ -4,6 +4,7 @@
 use App\Modules\Reports\Infra\Http\Controllers\AccumulatedEfficiencyController;
 use App\Modules\Reports\Infra\Http\Controllers\AccumulatedEfficiencySevenDaysController;
 use App\Modules\Reports\Infra\Http\Controllers\AccumulatedRetentionEfficiencyController;
+use App\Modules\Reports\Infra\Http\Controllers\MonthlyRequestsSummaryAdminController;
 use App\Modules\Reports\Infra\Http\Controllers\OpenPercentageAdminController;
 use App\Modules\Reports\Infra\Http\Controllers\RetentionDowngradeBalanceController;
 use Symfony\Component\Routing\Route;
@@ -36,11 +37,17 @@ $accumulatedRetentionEfficiency = new Route(
     ['_controller' => [AccumulatedRetentionEfficiencyController::class, 'index']]
 );
 
+$monthlyRequestsAdminSummary = new Route(
+    '/monthly-requests-summary',
+    ['_controller' => [MonthlyRequestsSummaryAdminController::class, 'index']]
+);
+
 $adminReportsRouter->add('accumulated-efficiency', $accumulatedEfficiency);
 $adminReportsRouter->add('accumulated-efficiency-seven-days', $accumulatedEfficiencySevenDays);
 $adminReportsRouter->add('open-percentage-admin', $openPercentageAdmin);
 $adminReportsRouter->add('retention-downgrade-balance', $retentionDowngradeBalance);
 $adminReportsRouter->add('accumulated-retention-efficiency', $accumulatedRetentionEfficiency);
+$adminReportsRouter->add('monthly-requests-summary', $monthlyRequestsAdminSummary);
 $adminReportsRouter->addPrefix('/reports/admin');
 
 return $adminReportsRouter;

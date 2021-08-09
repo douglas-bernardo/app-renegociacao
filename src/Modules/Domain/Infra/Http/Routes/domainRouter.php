@@ -1,6 +1,7 @@
 <?php
 
 use App\Modules\Domain\Infra\Http\Controllers\ContactTypeController;
+use App\Modules\Domain\Infra\Http\Controllers\GoalController;
 use App\Modules\Domain\Infra\Http\Controllers\PermissionsController;
 use App\Modules\Domain\Infra\Http\Controllers\ProductController;
 use App\Modules\Domain\Infra\Http\Controllers\ReasonsController;
@@ -82,6 +83,31 @@ $domainRouter->add('role-list', $roleList);
 $domainRouter->add('role-create', $roleCreate);
 $domainRouter->add('role-update', $roleUpdate);
 $domainRouter->add('role-show', $roleShow);
+
+/**
+ * Goals routes
+ */
+$goalList = new Route(
+    '/goal',
+    ['_controller' => [GoalController::class, 'index']],
+    [], [], '', [], ['GET']
+);
+
+$goalCreate = new Route(
+    '/goal',
+    ['_controller' => [GoalController::class, 'create']],
+    [], [], '', [], ['POST']
+);
+
+$goalUpdate = new Route(
+    '/goal/{id}',
+    ['_controller' => [GoalController::class, 'update']],
+    [], [], '', [], ['PUT']
+);
+
+$domainRouter->add('goal-list', $goalList);
+$domainRouter->add('goal-create', $goalCreate);
+$domainRouter->add('goal-update', $goalUpdate);
 
 $domainRouter->addPrefix('/domain');
 return $domainRouter;

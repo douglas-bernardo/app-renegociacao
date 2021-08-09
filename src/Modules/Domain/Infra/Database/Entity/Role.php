@@ -28,11 +28,12 @@ class Role extends Record
      */
     public function store()
     {
+        parent::store();
+
         if (isset($this->permissions) && !is_array($this->permissions)) {
             throw new InvalidArgumentException('Permissions parameter must be array');
         }
 
-        parent::store();
         if (isset($this->permissions) && !empty($this->permissions)) {
             foreach ($this->permissions as $permission) {
                 $rolePermission = new RolePermission();

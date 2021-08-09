@@ -26,14 +26,14 @@ class AccumulatedEfficiencyController extends AbstractController implements Toke
 
             $yearResults = $query['year'] ?? date("Y");
             $repository = new Repository(AccumulatedEfficiency::class, true);
-            $repository->addViewParameter('PARAM_ANO_SOL', "ano_sol = {$yearResults}");
+            $repository->addViewParameter('PARAM_ANO_SOLICITACAO', "ano_sol = {$yearResults}");
+            $repository->addViewParameter('PARAM_ANO_META', "g.current_year = {$yearResults}");
             $result = $repository->load(new Criteria());
 
             $dataset = [];
             foreach ($result as $row) $dataset[] = $row->toArray();
 
             Transaction::close();
-
             return new JsonResponse([
                 'status' => 'success',
                 'data' => $dataset
