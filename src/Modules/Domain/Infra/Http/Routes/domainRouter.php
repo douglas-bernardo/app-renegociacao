@@ -2,6 +2,8 @@
 
 use App\Modules\Domain\Infra\Http\Controllers\ContactTypeController;
 use App\Modules\Domain\Infra\Http\Controllers\GoalController;
+use App\Modules\Domain\Infra\Http\Controllers\GoalTypeController;
+use App\Modules\Domain\Infra\Http\Controllers\MonthController;
 use App\Modules\Domain\Infra\Http\Controllers\PermissionsController;
 use App\Modules\Domain\Infra\Http\Controllers\ProductController;
 use App\Modules\Domain\Infra\Http\Controllers\ReasonsController;
@@ -87,6 +89,7 @@ $domainRouter->add('role-show', $roleShow);
 /**
  * Goals routes
  */
+
 $goalList = new Route(
     '/goal',
     ['_controller' => [GoalController::class, 'index']],
@@ -105,9 +108,30 @@ $goalUpdate = new Route(
     [], [], '', [], ['PUT']
 );
 
+$showGoal = new Route(
+    '/goal/{id}',
+    ['_controller' => [GoalController::class, 'show']],
+    [], [], '', [], ['GET']
+);
+
+$goalType = new Route(
+    '/goal-type',
+    ['_controller' => [GoalTypeController::class, 'index']],
+    [], [], '', [], ['GET']
+);
+
+$month = new Route(
+    '/month',
+    ['_controller' => [MonthController::class, 'index']],
+    [], [], '', [], ['GET']
+);
+
 $domainRouter->add('goal-list', $goalList);
 $domainRouter->add('goal-create', $goalCreate);
 $domainRouter->add('goal-update', $goalUpdate);
+$domainRouter->add('goal-show', $showGoal);
+$domainRouter->add('goal-type', $goalType);
+$domainRouter->add('month', $month);
 
 $domainRouter->addPrefix('/domain');
 return $domainRouter;

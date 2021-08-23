@@ -36,7 +36,7 @@ class Goal extends Record
             foreach ($this->months as $month) {
                 $goalMonth = new GoalMonth();
                 $goalMonth->goal_id = $this->id;
-                $goalMonth->month_id = $month['month_id'];
+                $goalMonth->month_number = $month['month_number'];
                 $goalMonth->target = $month['target'];
                 $goalMonth->store();
             }
@@ -61,14 +61,13 @@ class Goal extends Record
     {
         $goalMonths = $this->getGoalMonths();
         $months = [];
+        /** @var GoalMonth $goalMonth */
         if ($goalMonths) {
             foreach ($goalMonths as $goalMonth) {
-                $months[] = [
-                    'month' => (new Month($goalMonth->month_id))->name,
-                    'target' => $goalMonth->target
-                ];
+                $months[] = $goalMonth->toArray();
             }
         }
+        $this->goal_type = (new GoalType($this->goal_type_id))->toArray();
         $this->months = $months;
         return parent::toArray();
     }

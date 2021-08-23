@@ -49,6 +49,9 @@ services:
   updateGoal.service:
     class: App\Modules\Domain\Services\UpdateGoalService
     arguments: [ "@goal.repository" ]
+  showGoal.service:
+    class: App\Modules\Domain\Services\ShowGoalService
+    arguments: [ "@goal.repository" ]
 
   # User
   authenticateUser.service:

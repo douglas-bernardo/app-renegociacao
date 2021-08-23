@@ -59,6 +59,10 @@ class UpdateUserService
             $user->delRoles();
         }
 
+        if (isset($data['ativo'])) {
+            $data['ativo'] = filter_var($data['ativo'], FILTER_VALIDATE_BOOLEAN);
+        }
+
         $user->fromArray($data);
         $user->store();
 

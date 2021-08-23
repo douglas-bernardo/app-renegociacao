@@ -20,7 +20,7 @@ DROP SCHEMA IF EXISTS `db_renegociacao` ;
 -- Concebido inicialmente como sistema de registro de negociações da equipe 
 -- de renegociação vacation.
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `db_renegociacao` ;
+CREATE SCHEMA IF NOT EXISTS `db_renegociacao`;
 USE `db_renegociacao` ;
 
 -- -----------------------------------------------------

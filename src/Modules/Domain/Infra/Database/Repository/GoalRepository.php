@@ -50,4 +50,17 @@ class GoalRepository implements IGoalRepository
         $result = $repository->load($criteria);
         return $result ? $result[0] : null;
     }
+
+    /**
+     * @throws Exception
+     */
+    public function findByTypeAndYear(int $goal_type_id, int $current_year): ?Goal
+    {
+        $criteria = new Criteria();
+        $criteria->add(new Filter('goal_type_id', '=', $goal_type_id));
+        $criteria->add(new Filter('current_year', '=', $current_year));
+        $repository = new Repository(Goal::class);
+        $result = $repository->load($criteria);
+        return $result ? $result[0] : null;
+    }
 }

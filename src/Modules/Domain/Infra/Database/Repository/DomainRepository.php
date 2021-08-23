@@ -7,10 +7,14 @@ namespace App\Modules\Domain\Infra\Database\Repository;
 use App\Modules\Domain\Repositories\IDomainRepository;
 use App\Shared\Infra\Database\Criteria;
 use App\Shared\Infra\Database\Repository;
+use Exception;
 
 class DomainRepository implements IDomainRepository
 {
 
+    /**
+     * @throws Exception
+     */
     public function loadEntity(string $entity): array
     {
         $result = array();

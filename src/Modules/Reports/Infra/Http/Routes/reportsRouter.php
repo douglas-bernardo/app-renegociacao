@@ -29,7 +29,7 @@ $monthlyRequests = new Route(
 );
 
 $monthlyRequestsSummary = new Route(
-    '/monthly-requests-summary',
+    '/requests-summary',
     ['_controller' => [MonthlyRequestsSummaryController::class, 'index']]
 );
 
@@ -51,7 +51,7 @@ $openPercentage = new Route(
 $reportsRouter->add('monthly-efficiency', $monthlyEfficiency);
 $reportsRouter->add('amount-received', $amountReceived);
 $reportsRouter->add('monthly-requests', $monthlyRequests);
-$reportsRouter->add('monthly-requests-summary', $monthlyRequestsSummary);
+$reportsRouter->add('requests-summary', $monthlyRequestsSummary);
 $reportsRouter->add('monthly-requests-seven-days', $monthlyRequestsSevenDays);
 $reportsRouter->add('accumulated-profit', $accumulatedProfit);
 $reportsRouter->add('open-percentage', $openPercentage);

@@ -5,9 +5,7 @@ namespace App\Modules\Domain\Services;
 
 
 use App\Modules\Domain\Infra\Database\Entity\Goal;
-use App\Modules\Domain\Infra\Database\Entity\Role;
 use App\Modules\Domain\Repositories\IGoalRepository;
-use App\Modules\Domain\Repositories\IRoleRepository;
 use App\Shared\Errors\ApiException;
 use Exception;
 
@@ -30,6 +28,10 @@ class UpdateGoalService
 
         if (!$goal) {
             throw new ApiException("Goal not found");
+        }
+
+        if (isset($data['active'])) {
+            $data['active'] = filter_var($data['active'], FILTER_VALIDATE_BOOLEAN);
         }
 
         try {

@@ -128,7 +128,6 @@ class UserController extends AbstractController implements TokenAuthenticatedCon
         $user = $request->attributes->get('user');
         $request_data = $request->toArray();
         $request_data = filter_var_array($request_data, FILTER_SANITIZE_STRING);
-        $request_data['ativo'] = filter_var($request_data['ativo'], FILTER_VALIDATE_BOOLEAN);
 
         Transaction::open($_ENV['APPLICATION']);
 

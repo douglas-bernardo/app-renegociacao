@@ -1,5 +1,5 @@
 -- Eficiência Acumulada
-/*
+
 SELECT
 	ano_sol,
 	usuario_resp_negociacao as negociador,
@@ -18,25 +18,23 @@ LEFT JOIN (SELECT
 				g.current_year,
 				g.active,
 				gm.target,
-				m.month_number
+				gm.month_number
 			FROM
 				goal g
 					LEFT JOIN
 				goal_type gt ON g.goal_type_id = gt.id
 					LEFT JOIN
 				goal_month gm ON gm.goal_id = g.id
-					LEFT JOIN
-				month m ON gm.month_id = m.id
 			WHERE
-				m.month_number = date_format( now() , '%c') AND 
+				gm.month_number = date_format( now() , '%c') AND 
 				g.current_year = 2021) AS goal ON goal.current_year = vw_analitic.ano_sol
 WHERE
 	ano_sol = 2021
 	AND tipo_solicitacao_id IN (2, 4)
 	AND situacao_id in (1, 2, 6, 7)
 GROUP BY 
-	usuario_resp_negociacao, ano_sol
-*/
+	usuario_resp_negociacao, ano_sol;
+
 
 -- Eficiência 7 Dias Acumulada
 /*
@@ -60,7 +58,7 @@ GROUP BY
 */    
 
 -- Percentual em aberto
-
+/*
 SELECT
     n.usuario_id,
     DATE_FORMAT( o.dtocorrencia , '%Y') AS ano_sol,
@@ -91,16 +89,16 @@ WHERE
   AND n.situacao_id IN (1, 2, 6, 7)
   AND 1 = 1
 GROUP BY n.usuario_id, ano_sol
-
+*/
 
 -- Caixa Retenção/Reversão
 /*
 SELECT
 	usuario_resp_negociacao as negociadora,
 	sum(valor_venda) as valor_solicitado,
-	sum(valor_retido) as valor_retido,
+	IFnull(sum(valor_retido), 0) as valor_retido,
 	sum(caixa_retencao) as caixa_retencao,
-    sum(valor_venda_novo) as valor_revertido,
+    IFnull(sum(valor_venda_novo), 0) as valor_revertido,
     sum(caixa_reversao) as caixa_reversao
 FROM
 	vw_analitic
@@ -131,23 +129,20 @@ GROUP BY usuario_resp_negociacao
 */
 
 -- metas
-/*
+
 SELECT 
     g.id,
     g.goal_type_id,
     g.current_year,
     g.active,
     gm.target,
-    m.month_number
+    gm.month_number
 FROM
     goal g
         LEFT JOIN
     goal_type gt ON g.goal_type_id = gt.id
         LEFT JOIN
     goal_month gm ON gm.goal_id = g.id
-        LEFT JOIN
-    month m ON gm.month_id = m.id
 WHERE
-    m.month_number = date_format( now() , '%c') AND 
+    gm.month_number = date_format( now() , '%c') AND 
     g.current_year = date_format( now() , '%Y');
-*/

@@ -13,15 +13,13 @@ FROM vw_analitic
                            g.current_year,
                            g.active,
                            gm.target,
-                           m.month_number
+                           gm.month_number
                     FROM goal g
                              LEFT JOIN
                          goal_type gt ON g.goal_type_id = gt.id
                              LEFT JOIN
                          goal_month gm ON gm.goal_id = g.id
-                             LEFT JOIN
-                         month m ON gm.month_id = m.id
-                    WHERE m.month_number = date_format(now(), '%c')
+                    WHERE gm.month_number = date_format(now(), '%c')
                       AND PARAM_ANO_META) AS goal ON goal.current_year = vw_analitic.ano_sol
 WHERE PARAM_ANO_SOLICITACAO
   AND tipo_solicitacao_id IN (2, 4)
