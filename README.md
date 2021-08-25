@@ -100,7 +100,7 @@ php8.0-common php8.0-mysql php8.0-xml php8.0-curl php8.0-gd php8.0-imagick php8.
     $ compposer install
 
     # Iniciar o projeto
-    ## servidor imnutido PHP
+    ## servidor embutido PHP
     $ php -S localhost:8080 -t public/
     
     # ou acesse via localhost
