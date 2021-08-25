@@ -27,9 +27,9 @@ O projeto **Renegociação Web** é um sistema de gerenciamento de ocorrências 
 ao cliente **Beach Park Vacation Club**, direcionadas especificamente para o departamento **ADM TS - RENEGOCIAÇÃO**.
 
 A aplicação é dividida em três partes:
-- [Backend API PHP - renegociacao (principal)](https://github.com/douglas-bernardo/app-renegociacao)
-- [Backend API PHP - timesharing (importação de ocorrências timesharing)](https://github.com/douglas-bernardo/api-timesharing)
-- [Frontend React](https://github.com/douglas-bernardo/renegociacao-web)
+- [Backend API - Renegociacao](https://github.com/douglas-bernardo/app-renegociacao)
+- [API Gateway - Sistema Timesharing](https://github.com/douglas-bernardo/api-timesharing)
+- [Frontend - SPA](https://github.com/douglas-bernardo/renegociacao-web)
 
 A aplicação importa as ocorrências abertas no sistema Timesharing (sistema interno) e as disponibiliza em um sistema web,
 para que a equipe de renegociação possa ter fácil acesso as ocorrências que foram atribuídas a cada negociadora, 
