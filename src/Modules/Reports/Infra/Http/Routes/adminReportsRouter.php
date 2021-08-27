@@ -4,6 +4,7 @@
 use App\Modules\Reports\Infra\Http\Controllers\AccumulatedEfficiencyController;
 use App\Modules\Reports\Infra\Http\Controllers\AccumulatedEfficiencySevenDaysController;
 use App\Modules\Reports\Infra\Http\Controllers\AccumulatedRetentionEfficiencyController;
+use App\Modules\Reports\Infra\Http\Controllers\CashBalanceAdminController;
 use App\Modules\Reports\Infra\Http\Controllers\MonthlyRequestsSummaryAdminController;
 use App\Modules\Reports\Infra\Http\Controllers\OpenPercentageAdminController;
 use App\Modules\Reports\Infra\Http\Controllers\RetentionDowngradeBalanceController;
@@ -42,12 +43,18 @@ $monthlyRequestsAdminSummary = new Route(
     ['_controller' => [MonthlyRequestsSummaryAdminController::class, 'index']]
 );
 
+$cashBalanceAdmin = new Route(
+    '/cash-balance',
+    ['_controller' => [CashBalanceAdminController::class, 'index']]
+);
+
 $adminReportsRouter->add('accumulated-efficiency', $accumulatedEfficiency);
 $adminReportsRouter->add('accumulated-efficiency-seven-days', $accumulatedEfficiencySevenDays);
 $adminReportsRouter->add('open-percentage-admin', $openPercentageAdmin);
 $adminReportsRouter->add('retention-downgrade-balance', $retentionDowngradeBalance);
 $adminReportsRouter->add('accumulated-retention-efficiency', $accumulatedRetentionEfficiency);
 $adminReportsRouter->add('monthly-requests-summary', $monthlyRequestsAdminSummary);
+$adminReportsRouter->add('cash-balance', $cashBalanceAdmin);
 $adminReportsRouter->addPrefix('/reports/admin');
 
 return $adminReportsRouter;

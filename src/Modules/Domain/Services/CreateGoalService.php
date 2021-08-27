@@ -26,7 +26,7 @@ class CreateGoalService
         );
 
         if ($checkGoalExists and $checkGoalExists->active) {
-            throw new ApiException('Já existe uma meta ativa cadastrada para esse ano');
+            throw new ApiException('Já existe uma meta ativa cadastrada para tipo de meta e ano');
         }
 
         return $this->goalRepository->create($data);
