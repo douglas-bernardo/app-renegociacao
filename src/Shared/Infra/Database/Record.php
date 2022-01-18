@@ -329,4 +329,9 @@ abstract class Record
     {
         return $this->data;
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->toArray() === $other->toArray();
+    }
 }

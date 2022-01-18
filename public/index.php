@@ -26,5 +26,5 @@ $request = Request::createFromGlobals();
 
 $response = $container->get('framework')->handle($request);
 
-// sleep(1);
+sleep(1);
 $response->send();

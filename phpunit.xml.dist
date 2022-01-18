@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        backupGlobals="false"
+        backupStaticAttributes="false"
+        bootstrap="./vendor/autoload.php"
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true"
+        processIsolation="false"
+        stopOnFailure="false"
+        verbose="false">
+    <testsuites>
+        <testsuite name="unit">
+            <directory>./src/Modules/**/Services/</directory>
+        </testsuite>
+    </testsuites>
+    <coverage
+            cacheDirectory="./tmp/"
+            includeUncoveredFiles="true"
+            processUncoveredFiles="true"
+            pathCoverage="false"
+            ignoreDeprecatedCodeUnits="true"
+            disableCodeCoverageIgnore="true"
+    >
+    </coverage>
+    <php>
+        <env name="APPLICATION" value="app_renegociacao"/>
+        <env name="JWT_SECRET" value="71dc93fd767339cceb74fcfb2c4c62b7"/>
+    </php>
+</phpunit>

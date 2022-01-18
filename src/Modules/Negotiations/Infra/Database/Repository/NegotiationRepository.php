@@ -166,7 +166,7 @@ class NegotiationRepository implements INegotiationRepository
 
         if (!in_array('ROLE_ADMIN', $currentUserRoles)) {
             $criteria2 = new Criteria();
-            $criteria2->add(new Filter('id_usuario_resp_ts', '=', $ts_usuario_id));
+            $criteria2->add(new Filter('usuario_resp_ts_id', '=', $ts_usuario_id));
             $mainCriteria->add($criteria2);
         }
 

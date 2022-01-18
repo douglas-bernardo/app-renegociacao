@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Warning":6},"times":{"App\\Modules\\Users\\Services\\AuthenticateUserServiceTest::testItShouldBeAbleToAuthenticate":0.142,"Warning":0.001,"App\\Modules\\Users\\Services\\ListUsersServiceTest::testItShouldBeAbleToListUsers":0.145}}
